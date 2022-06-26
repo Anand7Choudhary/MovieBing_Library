@@ -31,10 +31,14 @@ $(document).ready(function () {
 
 // All Application's functions starts here
 const checkscroll=()=>{
-    if(window.scrollY>200){
+    if(window.scrollY>100){
         document.getElementById("site-header").style.backgroundColor = "#000000";
     }else{
-        document.getElementById("site-header").style.backgroundColor = "transparent";
+        if (document.querySelector(".nav_wrapper").classList.contains("active")){
+            document.getElementById("site-header").style.backgroundColor = "#000000";
+        }else{
+                    document.getElementById("site-header").style.backgroundColor = "transparent";
+        }
     }
     if (window.scrollY > 100) {
         document.getElementById("moveUp").style.animationDuration = "0.5s";

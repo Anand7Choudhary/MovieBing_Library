@@ -1,10 +1,11 @@
 /* css variables */
 :root[data-theme="light"] {
     --main-bg-color: #ffffff;
-    --container-bg-color: #cccccc;
-    --text-color: #303030;
+    --container-bg-color: #1f1f1f;
+    --text-color: #444444;
+    --text-color2:#444444;
     --bg-color-base1:rgb(82, 58, 130);
-    --bg-color-base2:#005ac2;
+    --bg-color-base2:#cbe4ed;
     --bg-color-base3:#ffffff;
 }
 
@@ -13,14 +14,16 @@
     --container-bg-color: #1a1a1a;
     --text-color: #ffffff;
     --bg-color-base1:#303030;
-    --bg-color-base2:#202020;
+    --bg-color-base2:#151515;
     --bg-color-base3:#000000;
+    --text-color2:#e2e2e2;
 }
 *{
     margin:0;
     padding:0;
     box-sizing: border-box;
     transition: all 0.3s ease-in-out;
+    word-wrap: break-word;
 }
 .body{
     width:100%;
@@ -28,4 +31,113 @@
     /* background-color: var(--main-bg-color); */
     color: var(--text-color);
     font-family: "Roboto",sans-serif;
+}
+.landingBody{
+    width:100%;
+    min-height:90vh;
+    max-height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color-base2);
+    padding-top:100px;
+}
+.landingBody .sides{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    flex-direction: column;
+}
+.side1{
+    background-color: transparent;
+    padding:50px 5%;
+}
+.side1 h1{
+    font-size: 4rem;
+}
+.side1 p{
+    line-height: 5px;
+    font-size: 1.1rem;
+}
+.side1 a{
+    text-align: center;
+    padding:10px 20px;
+    background-image: url("/static/images/meshGrad1.png");
+    background-position: center;
+    background-size: 100% 100%;
+    justify-self: flex-end;
+    width: 200px;
+    text-decoration: none;
+    color: #f2f2f2;
+    border-radius: 25px;
+    font-weight: bolder;
+    margin-top: 50px;
+    align-self: center;
+}
+.side2{
+    background-color: transparent;
+    align-items: center;
+}
+.side2 .lord-icon{
+    width: 500px;
+    height:500px;
+}
+@media screen and (max-width:980px) {
+       /* .landingBody {
+           flex-direction: column-reverse;
+       } */
+
+       /* .landingBody .sides {
+           width: 100%;
+           height: fit-content;
+       } */
+
+       .landingBody .side2 .lord-icon {
+           width: 350px;
+           height: 350px;
+       }
+
+       .side1 {
+           padding: 10px 5% 50px 5%;
+       }
+
+       .side1 h1 {
+           font-size: 2rem;
+       }
+
+       .side1 p {
+           line-height: 5px;
+           font-size: 1rem;
+       }
+}
+@media screen and (max-width:700px) {
+    .landingBody{
+        flex-direction: column-reverse;
+    }
+    .landingBody .sides{
+        width: 100%;
+        height: fit-content;
+    }
+    .landingBody .side2 .lord-icon{
+        width:350px;
+        height: 350px;
+    }
+    .side1{
+        padding:10px 5% 50px 5%;
+    }
+    .side1 h1 {
+        font-size: 2rem;
+    }
+    .side1 p {
+        line-height: 5px;
+        font-size: 1rem;
+    }
+}
+@media screen and (max-width:300px) {
+    *{
+        display: none;
+        background-color: black;
+    }
 }

@@ -40,7 +40,7 @@ ul {
 .nav_item a {
     display: block;
     padding: 0px 0.75rem;
-    color: var(--text-color);
+    color: var(--text-color2);
 }
 
 .nav_toggle {
@@ -124,7 +124,7 @@ ul {
 
     .nav_item a {
         padding: 0.75rem 0.75rem;
-        color: var(--text-color);
+        color: var(--text-color2);
     }
 
     .nav_wrapper.active {
