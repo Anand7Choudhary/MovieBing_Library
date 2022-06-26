@@ -1,12 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
-</head>
-<body>
-    
-</body>
-</html>
+<!-- Navigation Block -->
+{% block navBar %}
+<nav class="site-header" id="site-header">
+  <div class="wrapper site-header_wrapper">
+    <div class="site-header_start">
+      <a href="/" class="brand">Title</a>
+    </div>
+    <div class="site-header_middle">
+      <nav class="nav">
+        <!-- <button class="nav_toggle" aria-expanded="false" type="button">
+              menu
+            </button> -->
+        <div id="menu-toggle" class="menu-toggle active-element nav_toggle">
+          <div class="one"></div>
+          <div class="two"></div>
+          <div class="three"></div>
+        </div>
+        <ul class="nav_wrapper">
+          <li class="nav_item"><a href="/xyz/">Home</a></li>
+          <li class="nav_item"><a href="/xyz/">About</a></li>
+          <li class="nav_item"><a href="/xyz/">Services</a></li>
+          <li class="nav_item"><a href="/xyz/">Hire us</a></li>
+          <li class="nav_item"><a href="/xyz/">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="site-header_end">
+      <a href="#">Sign in</a>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+<script>
+  let navToggle = document.querySelector(".nav_toggle");
+  let navWrapper = document.querySelector(".nav_wrapper");
+
+  navToggle.addEventListener("click", function () {
+    if (navWrapper.classList.contains("active")) {
+      this.setAttribute("aria-expanded", "false");
+      this.setAttribute("aria-label", "menu");
+      navWrapper.classList.remove("active");
+    } else {
+      navWrapper.classList.add("active");
+      this.setAttribute("aria-label", "close menu");
+      this.setAttribute("aria-expanded", "true");
+    }
+  });
+  var menuToggle = document.querySelector("#menu-toggle");
+  var activeElements = document.querySelectorAll(".active-element");
+  var toggledMenu = menuToggle.addEventListener("click", function () {
+    for (var activated = 0; activated < activeElements.length; activated++) {
+      activeElements[activated].classList.toggle("active");
+    }
+  });
+</script>
