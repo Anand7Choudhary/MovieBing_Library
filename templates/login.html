@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="fonts/material-icon/css/material-design-iconic-font.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style/navBar.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='style/home.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='style/login.css') }}"
+    />
+  </head>
+  <body>
+    {% include 'navBar.html' %}
+    <div class="login-body">
+      <form class="screen-1" action="/validateUserLogin" method="POST">
+      <!-- <div class=""> -->
+        <lord-icon
+          class="login_icon"
+          src="https://cdn.lordicon.com/fqrjldna.json"
+          trigger="loop"
+          colors="primary:#ffffff,secondary:#8930e8">
+        </lord-icon>
+        <p class="error">{{ error }}</p>
+        <div class="email">
+            <input type="email" name="email" placeholder="Email" />
+        </div>
+        <div class="password">
+            <input class="pas" type="password" name="password" placeholder="Password" />
+        </div>
+        <button class="login">Login</button>
+        <!-- <div class="footer"><span>Forgot Password?</span></div> -->
+      <!-- </div> -->
+      </form>
+    </div>
+    {% include 'footer.html' %}
+    <noscript>Please Enable Javascript</noscript>
+    <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+    <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+    <script></script>
+  </body>
+</html>

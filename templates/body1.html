@@ -1,0 +1,121 @@
+<html>
+
+<head>
+    <style>
+        .body1_block{
+            width: 100%;
+            height: 120vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: var(--bg-color-base1);
+            overflow: hidden;
+            padding:5vh 0;
+        }
+        .body1_block_video{
+            width: 100%;
+            height: 70%;
+            padding: 50px 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .body2{
+            height: 30%;
+            background-color: transparent;
+        }
+        .owl-carousel{
+            z-index: 0 !important;
+        }
+        .body2 .item {
+        background: rgb(22, 22, 22);
+        border-radius: 10px;
+        height:200px;
+        margin: 10px;
+        overflow: hidden;
+      }
+      .body2 .item img{
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+</head>
+
+<body>
+    {% block youtubeBlock %}
+    <div class="body1_block">
+        <div class="body1_block_video">
+            <iframe id="youtube-iframe" width="90%" height="100%" src="https://www.youtube.com/embed/AgS_6UbQ8JM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;"></iframe>
+        </div>
+        <div style="z-index: -10;" class="owl-carousel owl-theme body2">
+            <div class="item"><img alt="Video Link" onclick="getVideo('AgS_6UbQ8JM')" src="https://i1.ytimg.com/vi/AgS_6UbQ8JM/hqdefault.jpg"></div>
+            <div class="item"><img alt="Video Link" onclick="getVideo('giXco2jaZ_4')" src="https://i1.ytimg.com/vi/giXco2jaZ_4/hqdefault.jpg"></div>
+            <div class="item"><img alt="Video Link" onclick="getVideo('Go8nTmfrQd8')" src="https://i1.ytimg.com/vi/Go8nTmfrQd8/hqdefault.jpg"></div>
+            <div class="item"><img alt="Video Link" onclick="getVideo('wwGbt878_g0')" src="https://i1.ytimg.com/vi/wwGbt878_g0/hqdefault.jpg"></div>
+            <div class="item"><img alt="Video Link" onclick="getVideo('HhIl_XJ-OGA')" src="https://i1.ytimg.com/vi/HhIl_XJ-OGA/hqdefault.jpg"></div>
+            <div class="item"><img alt="Video Link" onclick="getVideo('lzr2PJXeHww')" src="https://i1.ytimg.com/vi/lzr2PJXeHww/hqdefault.jpg"></div>
+            <div class="item"><img alt="Video Link" onclick="getVideo('9ti4MSRuwBQ')" src="https://i1.ytimg.com/vi/9ti4MSRuwBQ/hqdefault.jpg"></div>
+        </div>
+    </div>
+      <link rel="stylesheet" href="/static/brower_components/OwlCarousel/dist/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" href="/static/brower_components/OwlCarousel/dist/assets/owl.theme.default.min.css" />
+    {% endblock youtubeBlock %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/static/brower_components/OwlCarousel/dist/owl.carousel.min.js"></script>
+    <script>
+        $(".body2").owlCarousel({
+          slideSpeed: 200,
+          paginationSpeed: 800,
+          rewindSpeed: 1000,
+          // //Autoplay
+          autoPlay: true,
+          stopOnHover: true,
+          // // Navigation
+          navigation: false,
+          navigationText: ["prev", "next"],
+          rewindNav: true,
+          scrollPerPage: false,
+          // //Pagination
+          pagination: false,
+          paginationNumbers: false,
+          // // Responsive
+          responsive: true,
+          responsiveRefreshRate: 200,
+          responsiveBaseWidth: window,
+          // // CSS Styles
+          baseClass: "owl-carousel",
+          theme: "owl-theme",
+          // //Lazy load
+          lazyLoad: true,
+          lazyFollow: true,
+          // //Mouse Events
+          mouseDrag: true,
+          touchDrag: true,
+          // transitionStyle: false,
+          loop: true,
+          margin: 10,
+          dots: false,
+          autoplay:true,
+          autoplayTimeout:2000,
+          responsive: {
+            0: {
+              items: 1,
+            },
+            400:{
+              items:1.25,
+            },
+            600: {
+              items: 2.15,
+            },
+            1000: {
+              items: 5,
+            },
+          },
+        });
+      document.getElementsByClassName("item")[0].addEventListener("click", function () {
+        alert("clicked");
+      });
+    </script>
+</body>
+</html>

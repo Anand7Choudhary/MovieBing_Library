@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SignUp</title>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="fonts/material-icon/css/material-design-iconic-font.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style/navBar.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='style/home.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static',filename='style/signup.css') }}"
+    />
+  </head>
+  <body>
+    {% include 'navBar.html' %}
+    <div class="signup-body">
+      <div class="signup-main">
+        <!-- <div class="background">
+          <div class="shape"></div>
+          <div class="shape"></div>
+        </div> -->
+        <form class="signup-form" action="/addToDataBase" method="POST">
+          <h3>
+            <lord-icon
+              class="icon"
+              src="https://cdn.lordicon.com/dxjqoygy.json"
+              trigger="loop"
+              colors="primary:#8930e8,secondary:#b4b4b4">
+            </lord-icon>
+          </h3>
+          <p id="error" class="error">{{ error }}</p>
+          <label for="username">Username</label>
+          <input type="text" placeholder="Username" id="username" name="uname" required />
+          <label for="email">Email</label>
+          <input type="email" placeholder="Email" id="email" name="email" required />
+          <label for="fullname">Full Name</label>
+          <input type="text" placeholder="Full Name" id="fullname" name="fname" required />
+          <label for="password">Password</label>
+          <input type="password" placeholder="Password" id="password" name="password" required />
+          <div class="gender_inputs">
+            <h6>Gender </h6>
+            <fieldset class="gender_block"> 
+                <input type="radio" name="gender" class="gender gender_mail" id="gender_male" value="male" >
+                <input type="radio" name="gender" class="gender gender_femail" id="gender_female" value="female" >
+                <input type="radio" name="gender" class="gender gender_others" id="gender_others" value="others" checked >  
+                <label for="gender_male">
+                    <lord-icon
+                    class="gender_icons"
+                    id="gender_1"
+                    src="https://cdn.lordicon.com/eszyyflr.json"
+                    trigger="loop"
+                    colors="primary:#ffffff,secondary:#ffffff">
+                    </lord-icon>
+                    <p>MALE</p>
+                </label>
+                <label for="gender_female">
+                    <lord-icon
+                    class="gender_icons"
+                    id="gender_2"
+                    src="https://cdn.lordicon.com/bwnhdkha.json"
+                    trigger="loop"
+                    colors="primary:#ffffff,secondary:#ffffff">
+                    </lord-icon>
+                    <p>FEMALE</p>
+                </label>
+                <label for="gender_others">
+                    <lord-icon
+                    class="gender_icons"
+                    id="gender_3"
+                    src="https://cdn.lordicon.com/vqmupdxd.json"
+                    trigger="loop"
+                    colors="primary:#ffffff,secondary:#ffffff">
+                </lord-icon>
+                <P>DO NOT SPECIFY</P>
+                </label>
+            </fieldset>
+          </div>
+          <button>Sign Up</button>
+        </form>
+      </div>
+    </div>
+    {% include 'footer.html' %}
+    <noscript>Please Enable Javascript</noscript>
+    <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+    <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+    <script>
+        document.getElementById("gender_male").addEventListener("click",function(){
+            selectGender(1);
+        });
+        document.getElementById("gender_female").addEventListener("click",function(){
+            selectGender(2);
+        });
+        document.getElementById("gender_others").addEventListener("click",function(){
+            selectGender(3);
+        });
+        const selectGender=(n)=>{
+            let genderId=document.getElementsByClassName("gender");
+            for(let i=0;i<3;i++){
+                document.getElementById("gender_"+(i+1)).style.border="2px dashed white";
+            }
+            document.getElementById("gender_"+n).style.border="2px solid red";
+        }
+    </script>
+  </body>
+</html>

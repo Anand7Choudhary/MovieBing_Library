@@ -1,12 +1,18 @@
-window.onload = function () {
-    if (window.localStorage.getItem("theme") == "dark") {
-        changeTheme(0);
-    } else if (window.localStorage.getItem("theme") == "light") {
-        changeTheme(1);
-    } else {
-        window.localStorage.setItem("theme", "dark");
-    }
-};
+// window.onload = function () {
+//     if (window.localStorage.getItem("theme") == "dark") {
+//         changeTheme(0);
+//     } else if (window.localStorage.getItem("theme") == "light") {
+//         changeTheme(1);
+//     } else {
+//         window.localStorage.setItem("theme", "dark");
+//     }
+//     let checkIflogin = "{{loginStatus}}";
+//     if (!checkIflogin) {
+//         document.getElementById("login").style.display = "block";
+//         document.getElementById("signup").style.display = "block";
+//         document.getElementById("logout").style.display = "none";
+//     }
+// };
 window.onscroll = function () {
     checkscroll();
 };

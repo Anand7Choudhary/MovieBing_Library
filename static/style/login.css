@@ -1,0 +1,229 @@
+/* nav bar edit */
+.site-header {
+    background-color: black;
+}
+
+.brand {
+    color: rgb(220, 220, 220);
+    text-decoration: none;
+}
+
+.nav_item a {
+    color: rgb(220, 220, 220);
+    text-decoration: none;
+}
+
+.site-header_end a {
+    color: rgb(220, 220, 220);
+    text-decoration: none;
+}
+
+.menu-toggle div {
+    background-color: rgb(220, 220, 220);
+}
+
+.nav_wrapper.active {
+    background-color: #303030;
+}
+/* nav bar edit end */
+.login-body{
+    width:100%;
+    height:fit-content;
+    padding:10px 20px 30px 20px;
+    margin:75px 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+    background-image: url("/static/images/login_bg.svg");
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100%;
+}
+.screen-1 {
+    background: rgba(167, 167, 167,0.75);
+    background: rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    width:60%;
+    min-height: 60vh;
+    max-height: fit-content;
+    padding: 2em;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    box-shadow: 0 0 5px grey;
+    gap: 1.5em;
+    overflow: hidden;
+}
+
+/* .screen-1 .logo {
+    margin-top: -3em;
+} */
+.screen-1 .login_icon{
+    width: 200px;
+    height:200px;
+    align-self: center;
+}
+.screen-1 p{
+    text-align: center;
+    color: #ff4e4e;
+    font-weight: bolder;
+}
+.screen-1 .email {
+    background: rgba(167, 167, 167,0.25);
+    /* box-shadow: 0 0 2em #e6e9f9; */
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 10px;
+    color: #4d4d4d;
+    /* margin-top: -3em; */
+}
+
+.screen-1 .email input {
+    outline: none;
+    border: none;
+}
+
+.screen-1 .email input::-moz-placeholder {
+    color: #f4f4f4;
+    font-size: 0.9em;
+}
+
+.screen-1 .email input:-ms-input-placeholder {
+    color: #f4f4f4;
+    font-size: 0.9em;
+}
+
+.screen-1 .email input::placeholder {
+    color: #f4f4f4;
+    font-size: 0.9em;
+}
+
+.screen-1 .email ion-icon {
+    color: #4d4d4d;
+    margin-bottom: -0.2em;
+}
+
+.screen-1 .password {
+    background: rgba(167, 167, 167, 0.25);
+    /* box-shadow: 0 0 2em #e6e9f9; */
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    border-radius: 10px;
+    color: #4d4d4d;
+}
+
+.screen-1 .password input {
+    outline: none;
+    border: none;
+}
+
+.screen-1 .password input::-moz-placeholder {
+    color: #f4f4f4;
+    font-size: 0.9em;
+}
+
+.screen-1 .password input:-ms-input-placeholder {
+    color: #f4f4f4;
+    font-size: 0.9em;
+}
+
+.screen-1 .password input::placeholder {
+    color: #f4f4f4;
+    font-size: 0.9em;
+}
+
+.screen-1 .password ion-icon {
+    color: #ffffff;
+    margin-bottom: -0.2em;
+}
+
+.screen-1 .password .show-hide {
+    margin-right: -5em;
+}
+
+.screen-1 .login {
+    padding: 1em;
+    background: #a891ec;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.login-body .screen-1 .footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7em;
+    color: #ffffff;
+    font-weight: bolder;
+    letter-spacing: 3px;
+    background-color: transparent;
+    border: none;
+    margin: 0;
+    padding:0;
+    transition-duration: 0.25s;
+}
+.login-body .screen-1 .footer span{
+    border: 2px solid #ffffff;
+    padding:5px 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+.login-body .screen-1 .footer span:hover{
+    background-image: url(/static/images/meshGrad1.png);
+}
+
+.screen-1 .footer span {
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
+}
+.login-body input{
+    outline: none;
+    border: none;
+}
+::placeholder{
+    color: #f4f4f4;
+}
+input {
+    background-color: transparent;
+    color:#f4f4f4;
+}
+@media screen and (max-width:1000px){
+    .screen-1 {
+        width: 50%;
+    }
+}
+@media screen and (max-width:650px){
+    .screen-1 {
+        width: 80%;
+        padding:1em;
+    }
+}
+@media screen and (max-width:400px) {
+    .screen-1 {
+        width: 90%;
+        padding:1em;
+    }
+
+    .login-body{
+        background-size: 200%;
+    }
+}
+@media screen and (min-width:1200px) {
+    .screen-1 {
+        width: 35%;
+    }
+}
