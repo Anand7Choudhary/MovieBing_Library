@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .contact-body {
+            width: 100%;
+            height: calc(100vh - 75px);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: var(--bg-color-base2);
+        }
+
+        .contact-body .hover-effect {
+            width: fit-content;
+            height: fit-content;
+            background-size: 180% 180%;
+            padding: 3px;
+            border-radius: 15px;
+            background: transparent;
+        }
+
+        .contact-body .hover-effect-addClass {
+            background: linear-gradient(300deg, darkviolet, #dd3333, #ff00e4);
+        }
+
+        .contact-body .contact-button {
+            width: fit-content;
+            height: fit-content;
+            background-color: var(--bg-color-base1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 15px;
+            outline: none;
+            position: relative;
+            padding: 10px 30px;
+            cursor: pointer;
+            z-index: 1;
+        }
+        .contact-body .contact-button .iconify {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 35px;
+        }
+
+        .contact-body .contact-button .icon {
+            cursor: pointer;
+        }
+
+        .contact-body p {
+            color: var(--text-color);
+        }
+        .contact-body .modal{
+            color: rgb(198, 198, 198);
+        }
+    </style>
+</head>
+
+<body>
+    {% block contactus %}
+    <div class="contact-body" id="contact-body">
+        <div class="hover-effect" id="hover-effect">
+            <div class="contact-button" id="contact-button" data-toggle="modal" data-target="#exampleModal"
+                data-whatever="@mdo">
+                <lord-icon class="icon" src="https://cdn.lordicon.com/flvisirw.json" trigger="loop"
+                    colors="primary:#a39cf4,secondary:#e8308c,tertiary:#66eece" style="width:250px;height:250px">
+                </lord-icon>
+                <span class="iconify" data-icon="material-symbols:touch-app-outline"></span>
+                <p>Contact Us</p>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg bg-dark">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Yes Please?</h5>
+                        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button> -->
+                    </div>
+                    <div class="modal-body bg-dark">
+                        <form>
+                            <div class="form-group">
+                                <label for="recipient-name" class="col-form-label">Recipient:</label>
+                                <input style="background-color: transparent;color:white" type="text" class="form-control" id="recipient-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="col-form-label">Message:</label>
+                                <textarea style="background-color: transparent;color:white" class="form-control" id="message-text"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Send message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock contactus %}
+    <script>
+        let xyz1 = document.getElementById("contact-button").addEventListener("mouseover", function () {
+            document.getElementById("hover-effect").classList.add("hover-effect-addClass");
+        });
+        let xyz2 = document.getElementById("contact-button").addEventListener("mouseout", function () {
+            document.getElementById("hover-effect").classList.remove("hover-effect-addClass");
+        });
+        let contactUsBtn = document.getElementById("contact-button");
+        contactUsBtn.addEventListener("click", function () {
+
+        });
+        
+    </script>
+</body>
+
+</html>

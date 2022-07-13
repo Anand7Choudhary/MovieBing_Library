@@ -3,7 +3,6 @@
     --main-bg-color: #ffffff;
     --container-bg-color: #1f1f1f;
     --text-color: #444444;
-    --text-color2:#444444;
     --bg-color-base1:#eefcff;
     --bg-color-base2:#d6f9ff;
     --bg-color-base3:#ffffff;
@@ -14,6 +13,7 @@
     --main-bg-color: #101010;
     --container-bg-color: #1a1a1a;
     --text-color: #ffffff;
+    --header-color:#909090;
     --bg-color-base1:#1b1b1b;
     --bg-color-base2:#151515;
     --bg-color-base3:#000000;
@@ -33,6 +33,7 @@
     /* background-color: var(--main-bg-color); */
     color: var(--text-color);
     font-family: "Roboto",sans-serif;
+    overflow-x: hidden;
 }
 .landingBody{
     width:100%;

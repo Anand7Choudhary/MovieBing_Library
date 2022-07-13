@@ -16,11 +16,11 @@
           <div class="three"></div>
         </div>
         <ul class="nav_wrapper">
-          <li class="nav_item"><a href="/">Home</a></li>
-          <li class="nav_item"><a href="/xyz/">About</a></li>
+          <li class="nav_item"><a href="#topHeader">Home</a></li>
+          <li class="nav_item"><a href="#aboutus">About</a></li>
           <li class="nav_item"><a href="/xyz/">Search</a></li>
           <li class="nav_item"><a href="/xyz/">Wishlist</a></li>
-          <li class="nav_item"><a href="/xyz/">Contact</a></li>
+          <li class="nav_item"><a href="#contact-body">Contact</a></li>
         </ul>
       </nav>
     </div>
@@ -45,7 +45,7 @@
       navWrapper.classList.add("active");
       this.setAttribute("aria-label", "close menu");
       this.setAttribute("aria-expanded", "true");
-      document.getElementById("site-header").style.backgroundColor="#000000";
+      document.getElementById("site-header").style.backgroundColor = "#000000";
     }
   });
   var menuToggle = document.querySelector("#menu-toggle");
