@@ -13,12 +13,61 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/navBar.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/body.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/home.css') }}" />
+  <style>
+    .alert{
+      position: fixed;
+      bottom:0;
+      left:0;
+      z-index:2;
+    }
+    .loader{  
+       height: 100vh;  
+       width:100vw;  
+       position:fixed;  
+       z-index: 1001;  
+       background-color:#151515; 
+       background-position: center;  
+       background-repeat: no-repeat;  
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       flex-direction: column;
+     }
+     .loader .icon{
+      width:200px;
+      height:200px;
+     }
+     .loader h2{
+        color: white;
+        font-size: 2em;
+        letter-spacing: 5px;
+     }  
+  </style>
   <!-- end links -->
 </head>
 
 <body class="body">
+  <div class="loader">
+    <lord-icon
+    class="icon"
+    src="https://cdn.lordicon.com/twkviqpp.json"
+    trigger="loop"
+    colors="primary:#e8e230,secondary:#e8308c">
+  </lord-icon>
+  <br>
+  <h5>Loading...</h5>
+  </div>
   <!-- navbar and theme buttons -->
-  {% include 'navBar.html' %} {% include 'appTheme.html' %}
+  {% if contact_success=="true" %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert" data-delay="2000">
+  <h5>Message Sent Successfully! We will get in touch with you ASAP.</h5>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  {% endif %}
+  {% include 'navBar.html' %}
+  {% include 'appTheme.html' %}
   <!-- end of navbar and theme buttons -->
   <div class="landingBody" id="landingBody">
     <div class="side1 sides">
@@ -62,20 +111,25 @@
   <script type="text/javascript" src="{{ url_for('static',filename='script/body1.js') }}"></script>
   <script>
     window.onload = function () {
-    if (window.localStorage.getItem("theme") == "dark") {
+      document.querySelector(".loader").style.display="none";
+      if (window.localStorage.getItem("theme") == "dark") {
         changeTheme(0);
-    } else if (window.localStorage.getItem("theme") == "light") {
+      } else if (window.localStorage.getItem("theme") == "light") {
         changeTheme(1);
-    } else {
+      } else {
         window.localStorage.setItem("theme", "dark");
-    }
-    // let checkIflogin = "{{loginStatus}}";
-    // alert(checkIflogin);
-    if (checkIflogin) {
+      }
+      let checkIflogin = "{{loginStatus}}";
+      // alert(checkIflogin);
+      if (checkIflogin=="true") {
         document.getElementById("login").style.display = "none";
         document.getElementById("signup").style.display = "none";
         document.getElementById("logout").style.display = "block";
-    }
+      }else{
+        document.getElementById("login").style.display = "block";
+        document.getElementById("signup").style.display = "block";
+        document.getElementById("logout").style.display = "none";
+      }
     };
   </script>
   <!-- end of scripts -->

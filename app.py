@@ -1,3 +1,4 @@
+import email
 from enum import unique
 from warnings import catch_warnings
 from xml.dom.pulldom import ErrorHandler
@@ -5,6 +6,7 @@ from flask import Flask,render_template,request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import column
 import re
+import smtplib
 
 app=Flask(
     __name__,
@@ -13,7 +15,10 @@ app=Flask(
 )
 
 
-# Database Work
+
+
+
+# table creation
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///movieLib.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db=SQLAlchemy(app)
@@ -26,6 +31,21 @@ class MovieLib (db.Model):
     def __repr__(self):
         # return f"{self.id} - {self.title}"
         return '<User %r>' % self.email
+
+class ContactDb (db.Model):
+    id=db.Column(db.Integer,primary_key=True)
+    email=db.Column(db.String(100),unique=False,nullable=False)
+    content=db.Column(db.String(1000),unique=False,nullable=False)
+    def __repr__(self):
+        # return f"{self.id} - {self.title}"
+        return '<Contact %r>' % self.id
+    
+#end of table creation
+
+
+
+
+
 
 
 @app.route("/addToDataBase",methods=['GET','POST'])
@@ -55,6 +75,21 @@ def addElements():
         return render_template('error404.html')
     return render_template('login.html')
 
+@app.route("/addContact",methods=['GET','POST'])
+def addContactInfo():
+    try:
+        if request.method=='POST':
+            email=request.form['recipient-email']
+            content=request.form['message-text']
+            contactDb=ContactDb(email=email,content=content)
+            db.session.add(contactDb)
+            db.session.commit()
+    except:
+        return render_template('error404.html')
+    return render_template('index.html',contact_success="true")
+
+
+
 @app.route("/validateUserLogin",methods=['GET','POST'])
 def loginUser():
     try:
@@ -68,16 +103,18 @@ def loginUser():
         print(check_email)
         check_pass=userPresent.password
         if(check_email==request.form['email'] and check_pass==request.form['password']):
-            return render_template('index.html',loginStatus=True)
+            return render_template('index.html',loginStatus="true")
         else:
             return render_template('login.html',error="Invalid Password")
         # checkUsername=MovieLib.query.filter_by(username=request.form['uname']).first()
     except:
         return render_template('error404.html')
 
+
+
 @app.route("/logout")
 def logoutUser():
-    return render_template('login.html',loginStatus=False)
+    return render_template('login.html',loginStatus="false")
 
 
 # HTML code links
