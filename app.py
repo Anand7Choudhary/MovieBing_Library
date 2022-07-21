@@ -1,11 +1,17 @@
+from distutils.log import debug
 import email
+import json
 from enum import unique
+from tabnanny import check
 from warnings import catch_warnings
 from xml.dom.pulldom import ErrorHandler
 from flask import Flask,render_template,request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import column
 import re
+from matplotlib.pyplot import table
+from Classifier import KNearestNeighbours
+from operator import itemgetter
 import smtplib
 
 app=Flask(
@@ -116,11 +122,71 @@ def loginUser():
 def logoutUser():
     return render_template('login.html',loginStatus="false")
 
+# 
+# 
+# 
+# 
+# 
+# main model engine
+
+with open(r'data.json', 'r+', encoding='utf-8') as f:
+    data = json.load(f)
+with open(r'titles.json', 'r+', encoding='utf-8') as f:
+    movie_titles = json.load(f)
+    movies = [title[0] for title in movie_titles]
+    
+def knn(test_point, k):
+    # Create dummy target variable for the KNN Classifier
+    target = [0 for item in movie_titles]
+    # Instantiate object for the Classifier
+    model = KNearestNeighbours(data, target, test_point, k=k)
+    # Run the algorithm
+    model.fit()
+    # Distances to most distant movie
+    max_dist = sorted(model.distances, key=itemgetter(0))[-1]
+    # Print list of 10 recommendations < Change value of k for a different number >
+    table = list()
+    for i in model.indices:
+        # Returns back movie title and imdb link
+        table.append([movie_titles[i][0], movie_titles[i][2]])
+    return table
+
+@app.route("/recommendations", methods=["POST"])
+def recommendations():
+    try:
+        searchFor = request.form["searchFor"]
+        genres = ['Action', 'Adventure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family',
+              'Fantasy', 'Film-Noir', 'Game-Show', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'News',
+              'Reality-TV', 'Romance', 'Sci-Fi', 'Short', 'Sport', 'Thriller', 'War', 'Western']
+        movies = [title[0] for title in movie_titles]
+        genres = data[movies.index(searchFor)]
+        test_point = genres
+        table = knn(test_point, 8)
+        listMovie=[]
+        listLink=[]
+        for movie, link in table:
+        # Displays movie title with link to imdb
+            listMovie.append(movie)
+            listLink.append(link)
+        movieList='...'.join(listMovie)
+        linkList='...'.join(listLink)
+        print(movieList)
+        return render_template("index.html", movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975")
+    except Exception as e:
+        return render_template("index.html", error=e,movies=movies,apikey="1cdc3975")
+
+
+# end of main model engine
+#
+#
+#
+#
+#
 
 # HTML code links
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("index.html",movies=movies,apikey="1cdc3975")
 
 @app.route("/signup")
 def signup():
@@ -129,6 +195,10 @@ def signup():
 @app.route("/login")
 def login():
     return render_template("login.html")
+
+# @app.route("/searchMovies")
+# def searchMovies():
+#     return render_template("recommendBody.html",movies=movies,apikey="1cdc3975")
 
 @app.errorhandler(404)
 def pagenotfound(e):

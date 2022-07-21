@@ -1,0 +1,169 @@
+<!-- <!DOCTYPE html> -->
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/navBar.css') }}" /> -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='style/recommendBody.css') }}">
+</head>
+
+<body>
+    {% block recommendBody %}
+    <form action="/recommendations" method="post" id="searchBody">
+        <select name="searchFor" id="searchFor" autocomplete="false">
+            <option value="">Select a movie</option>
+            {% for movie in movies %}
+            <option value="{{ movie }}">{{ movie }}</option>
+            {% endfor %}
+            <input type="submit" value="Recommend">
+    </form>
+    <div class="movieList" id="movieList"></div>
+    <!-- 
+
+
+
+
+     -->
+    <div class="modal fade movieData" id="movieData" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-header" id="movieHeader">
+                    <h5 class="modal-title" id="movieHeaderTitle"></h5>
+                </div>
+                <div class="modal-body">
+                    <img alt="Movie Poster" src="" id="moviePoster">
+                    <div class="movieDataBody">
+                        <p id="movieYear"></p>
+                        <p id="movieRating"></p>
+                        <p id="movieGenre"></p>
+                        <p id="movieDirector"></p>
+                        <p id="movieActors"></p>
+                        <p id="moviePlot"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock recommendBody %}
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+    <!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+    <!-- Do not Touch -->
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <!--  -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="{{ url_for('static',filename='script/home.js') }}"></script> -->
+    <script>
+        let movieList = "{{ movieList }}";
+        let linkList = "{{ linkList }}";
+        movieList = movieList.split("...");
+        linkList = linkList.split("...");
+        console.log(movieList);
+        console.log(linkList);
+        let movieCount = movieList.length;
+        console.log(movieCount);
+        if (movieList == '') {
+            document.querySelector(".movieList").innerHTML = "No movies found";
+        } else {
+            let c = 0;
+            for (let i = 0; i < movieCount; i++) {
+                let movie = movieList[i];
+                let link = linkList[i];
+                let imdbId = link.substring(26, 35);
+                console.log(imdbId);
+                let omdbData;
+                let url = "http://www.omdbapi.com/?apikey={{ apikey }}";
+                let movie_title;
+                let movie_poster;
+                let movie_year;
+                let movie_director;
+                let movie_actors;
+                let movie_rating;
+                let movie_genre;
+                let movie_plot;
+                getOmdbData(url, imdbId).then(function (data) {
+                    c++;
+                    let div = document.createElement("div");
+                    div.className = "movieItem item" + c;
+                    div.id = "movie" + c;
+                    // div.target = "_blank";
+                    document.querySelector(".movieList").appendChild(div);
+                    omdbData = data;
+                    console.log(omdbData);
+                    movie_title = data.Title;
+                    movie_poster = data.Poster;
+                    movie_year = data.Year;
+                    movie_director = data.Director;
+                    movie_actors = data.Actors;
+                    movie_rating = data.imdbRating;
+                    movie_genre = data.Genre;
+                    movie_plot = data.Plot;
+                    let img = document.createElement("img");
+                    img.src = movie_poster;
+                    document.querySelector("#movie" + c).appendChild(img);
+                    let p = document.createElement("p");
+                    // p.href = link;
+                    // p.target = "_blank";
+                    p.className = "movieLink";
+                    p.id = "movieLink" + c;
+                    p.innerHTML = movie;
+                    document.querySelector("#movie" + c).appendChild(p);
+                    let p2 = document.createElement("p");
+                    p2.className = "movieRatingTop";
+                    p2.id = "movieRatingTop" + c;
+                    p2.innerHTML = movie_rating +
+                        " <lord-icon src='https://cdn.lordicon.com/gbtkzxxm.json' trigger='loop' colors='primary:#ffc738' style='width:40px;height:40px'></lord-icon>";
+                    document.querySelector("#movie" + c).appendChild(p2);
+                    div.addEventListener("click", function () {
+                        let stars =
+                            "<lord-icon src='https://cdn.lordicon.com/gbtkzxxm.json' trigger='loop' colors='primary:#ffc738' style='width:40px;height:40px'></lord-icon>";
+                        document.getElementById("movieHeaderTitle").innerHTML = movie_title;
+                        document.getElementById("moviePoster").src = movie_poster;
+                        document.getElementById("movieYear").innerHTML =
+                            "<span style='color:yellow;'>Year of Release : </span>" + movie_year;
+                        document.getElementById("movieRating").innerHTML =
+                            "<span style='color:yellow;'>Rating : </span>" + movie_rating + " " + stars;
+                        document.getElementById("movieGenre").innerHTML =
+                            "<span style='color:yellow;'>Genres : </span>" + movie_genre;
+                        document.getElementById("movieDirector").innerHTML =
+                            "<span style='color:yellow;'>Director : </span>" + movie_director;
+                        document.getElementById("movieActors").innerHTML =
+                            "<span style='color:yellow;'>Actors : </span>" + movie_actors;
+                        document.getElementById("moviePlot").innerHTML =
+                            "<span style='color:yellow;'>Movie Plot : </span>" + movie_plot;
+                        $('#movieData').modal('show');
+                    });
+                });
+                // setTimeout(1000);
+            }
+        }
+
+        async function getOmdbData(url, imdbId) {
+            try {
+                return await fetch(url + '&i=' + imdbId).then((response) => {
+                    return response.json();
+                });
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    </script>
+</body>
+
+</html>
