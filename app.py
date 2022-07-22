@@ -20,6 +20,10 @@ app=Flask(
     template_folder='templates'
 )
 
+# variables
+loginStatus = "flase"
+error=""
+
 
 
 
@@ -92,7 +96,7 @@ def addContactInfo():
             db.session.commit()
     except:
         return render_template('error404.html')
-    return render_template('index.html',contact_success="true")
+    return render_template('index.html',contact_success="true",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
 
 
 
@@ -109,7 +113,9 @@ def loginUser():
         print(check_email)
         check_pass=userPresent.password
         if(check_email==request.form['email'] and check_pass==request.form['password']):
-            return render_template('index.html',loginStatus="true")
+            global loginStatus
+            loginStatus="true"
+            return render_template('index.html',loginStatus=loginStatus,movies=movies,apikey="1cdc3975",showLoading="true")
         else:
             return render_template('login.html',error="Invalid Password")
         # checkUsername=MovieLib.query.filter_by(username=request.form['uname']).first()
@@ -120,7 +126,9 @@ def loginUser():
 
 @app.route("/logout")
 def logoutUser():
-    return render_template('login.html',loginStatus="false")
+    global loginStatus
+    loginStatus="false"
+    return render_template('index.html',loginStatus=loginStatus,showLoading="false",movies=movies,apikey="1cdc3975")
 
 # 
 # 
@@ -172,9 +180,9 @@ def recommendations():
         linkList='...'.join(listLink)
         print(movieList)
         # return (movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975")
-        return render_template("index.html", movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975")
+        return render_template("index.html", movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="flase")
     except Exception as e:
-        return render_template("index.html", error=e,movies=movies,apikey="1cdc3975")
+        return render_template("index.html", error=e,movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
 
 
 # end of main model engine
@@ -187,7 +195,7 @@ def recommendations():
 # HTML code links
 @app.route("/")
 def home():
-    return render_template("index.html",movies=movies,apikey="1cdc3975")
+    return render_template("index.html",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="true")
 
 @app.route("/signup")
 def signup():
@@ -203,7 +211,7 @@ def login():
 
 @app.route("/setRecommendScrollFalse")
 def setRecommendScrollFalse():
-    return render_template("index.html",recommendScroll="false")
+    return render_template("index.html",recommendScroll="false",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
 
 @app.errorhandler(404)
 def pagenotfound(e):
