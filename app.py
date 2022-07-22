@@ -171,6 +171,7 @@ def recommendations():
         movieList='...'.join(listMovie)
         linkList='...'.join(listLink)
         print(movieList)
+        # return (movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975")
         return render_template("index.html", movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975")
     except Exception as e:
         return render_template("index.html", error=e,movies=movies,apikey="1cdc3975")
@@ -199,6 +200,10 @@ def login():
 # @app.route("/searchMovies")
 # def searchMovies():
 #     return render_template("recommendBody.html",movies=movies,apikey="1cdc3975")
+
+@app.route("/setRecommendScrollFalse")
+def setRecommendScrollFalse():
+    return render_template("index.html",recommendScroll="false")
 
 @app.errorhandler(404)
 def pagenotfound(e):

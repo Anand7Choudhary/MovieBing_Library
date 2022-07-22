@@ -1,39 +1,3 @@
-// window.onload = function () {
-//     if (window.localStorage.getItem("theme") == "dark") {
-//         changeTheme(0);
-//     } else if (window.localStorage.getItem("theme") == "light") {
-//         changeTheme(1);
-//     } else {
-//         window.localStorage.setItem("theme", "dark");
-//     }
-//     let checkIflogin = "{{loginStatus}}";
-//     if (!checkIflogin) {
-//         document.getElementById("login").style.display = "block";
-//         document.getElementById("signup").style.display = "block";
-//         document.getElementById("logout").style.display = "none";
-//     }
-// };
-window.onload = function () {
-    document.querySelector(".loader").style.display = "none";
-    if (window.localStorage.getItem("theme") == "dark") {
-        changeTheme(0);
-    } else if (window.localStorage.getItem("theme") == "light") {
-        changeTheme(1);
-    } else {
-        window.localStorage.setItem("theme", "dark");
-    }
-    let checkIflogin = "{{loginStatus}}";
-    // alert(checkIflogin);
-    if (checkIflogin == "true") {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("signup").style.display = "none";
-        document.getElementById("logout").style.display = "block";
-    } else {
-        document.getElementById("login").style.display = "block";
-        document.getElementById("signup").style.display = "block";
-        document.getElementById("logout").style.display = "none";
-    }
-};
 window.onscroll = function () {
     checkscroll();
 };
@@ -78,3 +42,25 @@ const checkscroll=()=>{
         document.getElementById("moveUp").style.animationName = "slideOut";
     }
 }
+
+function checkTheme(){
+    if (window.localStorage.getItem("theme") == "dark") {
+        changeTheme(0);
+    } else if (window.localStorage.getItem("theme") == "light") {
+        changeTheme(1);
+    } else {
+        window.localStorage.setItem("theme", "dark");
+    }
+}
+
+// function checkLoginStatus(checkIflogin) {
+//     if (checkIflogin == "true") {
+//         document.getElementById("login").style.display = "none";
+//         document.getElementById("signup").style.display = "none";
+//         document.getElementById("logout").style.display = "block";
+//     } else {
+//         document.getElementById("login").style.display = "block";
+//         document.getElementById("signup").style.display = "block";
+//         document.getElementById("logout").style.display = "none";
+//     }
+// }

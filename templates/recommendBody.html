@@ -13,7 +13,8 @@
 
 <body>
     {% block recommendBody %}
-    <form action="/recommendations" method="post" id="searchBody">
+    <div class="toNavigate" style="width:0px;height:0px;position:relative;background-color: transparent;" id="searchNav">Hello</div>
+    <form method="post" id="searchBody">
         <select name="searchFor" id="searchFor" autocomplete="false">
             <option value="">Select a movie</option>
             {% for movie in movies %}
@@ -30,7 +31,8 @@
      -->
     <div class="modal fade movieData" id="movieData" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-xl">
+        <!--  modal-dialog-scrollable -->
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content">
                 <div class="modal-header" id="movieHeader">
                     <h5 class="modal-title" id="movieHeaderTitle"></h5>
@@ -65,7 +67,8 @@
     <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
     <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
     <!-- Do not Touch -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <!--  -->
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
     <!-- <script type="text/javascript" src="{{ url_for('static',filename='script/home.js') }}"></script> -->

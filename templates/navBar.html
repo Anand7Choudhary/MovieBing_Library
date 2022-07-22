@@ -18,7 +18,7 @@
         <ul class="nav_wrapper">
           <li class="nav_item"><a href="#topHeader">Home</a></li>
           <li class="nav_item"><a href="/xyz/">Wishlist</a></li>
-          <li class="nav_item"><a href="#searchBody">Search</a></li>
+          <li class="nav_item" id="searchNavBtn"><a id="searchNavLink" onclick="setLinkAddress()">Search</a></li>
           <li class="nav_item"><a href="#contact-body">Contact</a></li>
           <li class="nav_item"><a href="#aboutus">About</a></li>
         </ul>
@@ -33,6 +33,11 @@
 </nav>
 {% endblock %}
 <script>
+  function setLinkAddress() {
+    let link = document.getElementById("searchNavLink");
+    // window.scrollTo(0, document.getElementById("searchNav").offsetTop);
+    link.href = "#searchNav";
+  }
   let navToggle = document.querySelector(".nav_toggle");
   let navWrapper = document.querySelector(".nav_wrapper");
 

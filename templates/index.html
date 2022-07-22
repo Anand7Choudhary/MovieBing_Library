@@ -148,25 +148,34 @@
           integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
           crossorigin="anonymous"></script> -->
   <script>
-// with var1=value1, var2=value2
-// $(document).on('submit','#searchBody',function(e)
-//                    {
-//       console.log('hello');
-//       e.preventDefault();
-//       $.ajax({
-//         type:'POST',
-//         url:'/recommendations',
-//         data:{
-//           todo:$("#searchBody").val()
-//         },
-//         success:function()
-//         {
-//           alert('saved');
-//         }
-//       })
-//     });
+    document.getElementById("searchBody").addEventListener("submit",function(){
+              sessionStorage.setItem('scrollToSearch',true);
+              document.getElementById("searchBody").action="/recommendations";
+    });
+
+
+    // window on load function
+    window.onload = function () {
+    document.querySelector(".loader").style.display = "none";
+    checkTheme();
+    if(sessionStorage.getItem('scrollToSearch')=="true"){
+      document.getElementById("searchNavLink").href="#searchNav";
+      document.getElementById("searchNavLink").click();
+      sessionStorage.setItem('scrollToSearch',"false");
+    }
+    let checkIfLogin = "{{ loginStatus }}";
+    if (checkIflogin == "true") {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("signup").style.display = "none";
+        document.getElementById("logout").style.display = "block";
+    } else {
+        document.getElementById("login").style.display = "block";
+        document.getElementById("signup").style.display = "block";
+        document.getElementById("logout").style.display = "none";
+    }
+    sessionStorage.setItem('scrollToSearch','flase');
+};
   </script>
   <!-- end of scripts -->
 </body>
-
 </html>
