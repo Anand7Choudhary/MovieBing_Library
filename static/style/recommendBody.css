@@ -1,12 +1,16 @@
 #searchBody {
-    margin-top: 100px;
+    /* margin-top: 100px; */
     width: 100%;
     height: fit-content;
     padding: 10px 15px;
+    padding-top:100px;
+    padding-bottom: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
+    background-color: var(--bg-color-base1);
+    overflow-x: hidden;
 }
 
 #searchBody select,
@@ -19,17 +23,16 @@
 
 #searchBody input[type="submit"] {
     width: fit-content;
-    background-color: #75a93b;
+    background-color: #4e850f;
     border: none;
-    color: #151515;
+    color: #ffffff;
     font-size: 1.2rem;
     padding: 10px 15px;
     cursor: pointer;
 }
 
 .movieList {
-    margin-top: 100px;
-    background-color: #303030;
+    background-color: var(--bg-color-base3);
     position: relative;
     width: 100%;
     overflow-x: hidden;
@@ -37,6 +40,8 @@
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
+    padding-top:50px;
+    padding-bottom: 50px;
 }
 
 .movieList .movieItem {
@@ -125,12 +130,23 @@
     border-left: 2px solid grey;
 }
 
-@media screen and (max-width:1000px) {
+@media screen and (max-width:900px) {
     .movieData .modal-content .modal-body {
         flex-direction: column;
         /* padding:300px 0 0 0; */
         /* overflow: auto; */
         /* overflow-y: auto; */
+    }
+
+    .movieList .movieItem {
+        width:150px;
+        height:200px;
+    }
+    .movieList .movieItem img{
+        height: 100%;
+    }
+    .movieList .movieItem .movieLink{
+        display: none;
     }
 
     .movieData .modal-content .modal-body .movieDataBody {
@@ -145,5 +161,25 @@
     .movieData .modal-content .modal-body .movieDataBody {
         border: none;
         border-top: 2px solid grey;
+    }
+    #searchBody{
+        flex-direction: column;
+    }
+    #searchBody select,
+    #searchBody option,
+    #searchBody input[type="text"],
+    #searchBody input[type="search"] {
+        width: 90%;
+        height: 60px;
+        margin-bottom: 10px;
+    }
+    #searchBody input[type="submit"]{
+        border-radius: 10px;
+    }
+}
+@media screen and (max-width:350px){
+    .movieList .movieItem{
+        width:225px;
+        height:300px;
     }
 }

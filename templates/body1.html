@@ -2,7 +2,7 @@
 
 <head>
     <style>
-        .body1_block{
+        /* .body1_block{
             width: 100%;
             height: 120vh;
             display: flex;
@@ -37,7 +37,7 @@
       .body2 .item img{
         width: 100%;
         height: 100%;
-      }
+      } */
     </style>
 </head>
 
@@ -57,9 +57,9 @@
             <div class="item"><img alt="Video Link" onclick="getVideo('9ti4MSRuwBQ')" src="https://i1.ytimg.com/vi/9ti4MSRuwBQ/hqdefault.jpg"></div>
         </div>
     </div>
-      <link rel="stylesheet" href="/static/brower_components/OwlCarousel/dist/assets/owl.carousel.min.css" />
-  <link rel="stylesheet" href="/static/brower_components/OwlCarousel/dist/assets/owl.theme.default.min.css" />
-    {% endblock youtubeBlock %}
+        {% endblock youtubeBlock %}
+      <!-- <link rel="stylesheet" href="/static/brower_components/OwlCarousel/dist/assets/owl.carousel.min.css" />
+      <link rel="stylesheet" href="/static/brower_components/OwlCarousel/dist/assets/owl.theme.default.min.css" /> -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="/static/brower_components/OwlCarousel/dist/owl.carousel.min.js"></script>
     <script>
@@ -99,16 +99,25 @@
           autoplayTimeout:2000,
           responsive: {
             0: {
-              items: 1,
+              items: 1.10,
             },
             400:{
-              items:1.25,
+              items:1.50,
             },
             600: {
-              items: 2.15,
+              items: 2.25,
             },
             1000: {
-              items: 5,
+              items: 3.50,
+            },
+            1200:{
+              items:4.50,
+            },
+            1400:{
+              items:5.10,
+            },
+            1600:{
+              items:6.10,
             },
           },
         });

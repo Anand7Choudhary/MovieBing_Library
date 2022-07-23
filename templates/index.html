@@ -11,6 +11,8 @@
     integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style/recommendBody.css') }}"> -->
+  <link rel="stylesheet" href="/static/brower_components/OwlCarousel/dist/assets/owl.carousel.min.css" />
+  <link rel="stylesheet" href="/static/brower_components/OwlCarousel/dist/assets/owl.theme.default.min.css" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/navBar.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/body.css') }}" />
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style/home.css') }}" />
@@ -62,8 +64,9 @@
   {% endif %}
   <!-- navbar and theme buttons -->
   {% if contact_success=="true" %}
-  <div class="alert alert-success alert-dismissible fade show" role="alert" data-delay="2000">
-  <h5>Message Sent Successfully! We will get in touch with you ASAP.</h5>
+  <div class="alert alert-info alert-dismissible fade show" role="alert" data-delay="2000">
+  <!-- <h5>Message Sent Successfully! We will get in touch with you ASAP.</h5> -->
+  <h5>{{contact_success_message }}</h5>
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>

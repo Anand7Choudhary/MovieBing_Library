@@ -94,9 +94,11 @@ def addContactInfo():
             contactDb=ContactDb(email=email,content=content)
             db.session.add(contactDb)
             db.session.commit()
+            return render_template('index.html',contact_success="true",contact_success_message="Message Sent Successfully! We will get in touch with you ASAP.",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
     except:
-        return render_template('error404.html')
-    return render_template('index.html',contact_success="true",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
+        # return render_template("error404.html")
+        return render_template('index.html',contact_success="true",contact_success_message="Message not Sent! Please try again later.",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
+    # return render_template('index.html',contact_success="true",contact_success_message="",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
 
 
 
@@ -180,7 +182,7 @@ def recommendations():
         linkList='...'.join(listLink)
         print(movieList)
         # return (movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975")
-        return render_template("index.html", movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="flase")
+        return render_template("index.html", movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="true")
     except Exception as e:
         return render_template("index.html", error=e,movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
 

@@ -57,6 +57,8 @@
 
         .contact-body .contact-button .icon {
             cursor: pointer;
+            width: 250px;
+            height:250px;
         }
 
         .contact-body p {
@@ -65,6 +67,15 @@
 
         .contact-body .modal {
             color: rgb(198, 198, 198);
+        }
+        @media screen and (max-width:300px){
+            .contact-body{
+                padding: 10px;
+            }
+            .contact-body .contact-button .icon{
+                width: 200px;
+                height:200px;
+            }
         }
     </style>
 </head>
@@ -76,7 +87,7 @@
             <div class="contact-button" id="contact-button" data-toggle="modal" data-target="#exampleModal"
                 data-whatever="@mdo">
                 <lord-icon class="icon" src="https://cdn.lordicon.com/flvisirw.json" trigger="loop"
-                    colors="primary:#a39cf4,secondary:#e8308c,tertiary:#66eece" style="width:250px;height:250px">
+                    colors="primary:#a39cf4,secondary:#e8308c,tertiary:#66eece">
                 </lord-icon>
                 <span class="iconify" data-icon="material-symbols:touch-app-outline"></span>
                 <p>Contact Us</p>
