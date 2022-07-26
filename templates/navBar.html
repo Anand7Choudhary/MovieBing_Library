@@ -40,7 +40,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h3 class="modal-title" id="staticBackdropLabel" style="font-size: 24px;color:#303030">Find It All Here!</h3>
-        <button type="button" class="btn btn-danger" data-dismiss="modal"  onclick="movieSearch(0)">&times;</button>
+        <button type="button" class="btn btn-danger" id="dismiss-modal" data-dismiss="modal"  onclick="movieSearch(0)">&times;</button>
       </div>
       <div class="modal-body">
         <div class="input-group mb-3">
@@ -58,6 +58,12 @@
 </div>
 <div class="alert alert-danger alert-dismissible fade show loginAlert" id="loginAlert" role="alert" data-delay="2000" style="display: none;">
   <h5>Login to use this feature</h5>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="alert alert-danger alert-dismissible fade show movieNotFoundAlert" id="movieNotFoundAlert" role="alert" data-delay="2000" style="display: none;">
+  <h5>Movie Not found!</h5>
   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -87,6 +93,7 @@
       movie_rating = data.imdbRating;
       movie_genre = data.Genre;
       movie_plot = data.Plot;
+      if(movie_title!=null){
       let stars ="<lord-icon src='https://cdn.lordicon.com/gbtkzxxm.json' trigger='loop' colors='primary:#ffc738' style='width:40px;height:40px'></lord-icon>";
       document.getElementById("movieHeaderTitle").innerHTML = movie_title;
       document.getElementById("moviePoster").src = movie_poster;
@@ -103,7 +110,10 @@
       document.getElementById("moviePlot").innerHTML =
         "<span style='color:yellow;'>Movie Plot : </span>" + movie_plot;
       $('#movieData').modal('show');
-    }).catch(function (error) {
+    }else{
+      document.getElementById("dismiss-modal").click();
+      document.getElementById("movieNotFoundAlert").style.display="block";
+    }}).catch(function (error) {
       console.log(error);
     });
 
