@@ -35,6 +35,9 @@
     font-family: "Roboto",sans-serif;
     overflow-x: hidden;
 }
+a:hover{
+    text-decoration-style: none;
+}
 .landingBody{
     width:100%;
     min-height:90vh;

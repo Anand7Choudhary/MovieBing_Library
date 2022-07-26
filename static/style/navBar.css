@@ -53,7 +53,7 @@ ul {
     justify-content: center;
 }
 
-.nav_item a {
+.nav_item a{
     display: block;
     padding: 0px 0.75rem;
     color: var(--text-color2);
@@ -68,7 +68,14 @@ ul {
     -webkit-background-clip: text;
     background-clip: text;
 }
-
+.nav_item .iconify{
+    transition: all 0.15s ease-in-out;
+    cursor: pointer;
+}
+.nav_item .iconify:hover{
+    font-size: large;
+    color:white;
+}
 .nav_toggle {
     display: none;
     height: 100%;

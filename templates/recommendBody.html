@@ -13,7 +13,12 @@
 
 <body>
     {% block recommendBody %}
-    <div class="toNavigate" style="width:0px;height:0px;position:relative;background-color: transparent;" id="searchNav">Hello</div>
+    <div id="recommendBody">
+    <div class="toNavigate" style="width:0px;height:0px;position:relative;background-color: transparent;" id="searchNav"></div>
+    <div class="bodyTitleRecommend">
+        <h3 style="color:var(--text-color);">Type in your favorite movie!</h3>
+        <h3 style="width:100px;height:5px; border-radius:2px;background-color:rgb(0, 55, 172);"></h3>
+    </div>
     <form method="post" id="searchBody">
         <select name="searchFor" id="searchFor" autocomplete="false">
             <option value="">Select a movie</option>
@@ -24,6 +29,7 @@
             <input type="submit" value="Recommend">
     </form>
     <div class="movieList" id="movieList"></div>
+    </div>
     <!-- 
 
 
@@ -33,7 +39,7 @@
     <div class="modal fade movieData" id="movieData" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <!--  modal-dialog-scrollable -->
-        <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-dialog modal-dialog-centered modal-xl modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header" id="movieHeader">
                     <h5 class="modal-title" id="movieHeaderTitle"></h5>

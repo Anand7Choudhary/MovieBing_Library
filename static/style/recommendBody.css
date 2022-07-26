@@ -3,7 +3,7 @@
     width: 100%;
     height: fit-content;
     padding: 10px 15px;
-    padding-top:100px;
+    padding-top:50px;
     padding-bottom: 50px;
     display: flex;
     justify-content: center;
@@ -129,7 +129,15 @@
     border: none;
     border-left: 2px solid grey;
 }
-
+.bodyTitleRecommend{
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--bg-color-base1);
+    word-break: break-all;
+}
 @media screen and (max-width:900px) {
     .movieData .modal-content .modal-body {
         flex-direction: column;
@@ -181,5 +189,10 @@
     .movieList .movieItem{
         width:225px;
         height:300px;
+    }
+}
+@media screen and (max-width:475px){
+    .bodyTitleRecommend h3{
+        font-size: 20px;
     }
 }

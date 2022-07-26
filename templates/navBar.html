@@ -3,10 +3,10 @@
 <nav class="site-header" id="site-header">
   <div class="wrapper site-header_wrapper">
     <div class="site-header_start">
-      <a href="/" class="brand">Title</a>
+      <a href="/" class="brand" onclick="hideCenterMenu(0)">Title</a>
     </div>
-    <div class="site-header_middle">
-      <nav class="nav">
+    <div class="site-header_middle" id="site-header_middle">
+      <nav class="nav" id="nav">
         <!-- <button class="nav_toggle" aria-expanded="false" type="button">
               menu
             </button> -->
@@ -15,10 +15,12 @@
           <div class="two"></div>
           <div class="three"></div>
         </div>
-        <ul class="nav_wrapper">
+        <ul class="nav_wrapper" id="nav_wrapper">
           <li class="nav_item"><a href="#topHeader">Home</a></li>
-          <li class="nav_item"><a href="/xyz/">Wishlist</a></li>
-          <li class="nav_item" id="searchNavBtn"><a id="searchNavLink" onclick="setLinkAddress()">Search</a></li>
+          <li class="nav_item" id="searchNavBtn"><a id="searchNavLink" style="cursor:pointer;"
+              onclick="setLinkAddress()">Recommend</a></li>
+          <li class="nav_item"><a data-toggle="modal" data-target="#searchModal"><span class="iconify"
+                data-icon="bi:search" onclick="movieSearch(1)"></span></a></li>
           <li class="nav_item"><a href="#contact-body">Contact</a></li>
           <li class="nav_item"><a href="#aboutus">About</a></li>
         </ul>
@@ -26,17 +28,116 @@
     </div>
     <div class="site-header_end">
       <a href="/logout" id="logout">Log Out</a>
-      <a href="/login" id="login">Log In</a>
-      <a href="/signup" id="signup">Sign Up</a>
+      <a href="/login" id="login" onclick="hideCenterMenu(1)">Log In</a>
+      <a href="/signup" id="signup" onclick="hideCenterMenu(1)">Sign Up</a>
     </div>
   </div>
 </nav>
+<!-- modal 1 -->
+<div class="modal fade" id="searchModal" data-backdrop="static" data-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="staticBackdropLabel" style="font-size: 24px;color:#303030">Find It All Here!</h3>
+        <button type="button" class="btn btn-danger" data-dismiss="modal"  onclick="movieSearch(0)">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" id="movieNameInSearch" placeholder="Movie Name [Eg : Avatar]"
+            aria-label="Recipient's username" aria-describedby="button-addon2" style="border: 2px solid #303030;">
+          <div class="input-group-append">
+            <!--  data-target="#movieData" down -->
+            <button class="btn btn-outline-success" type="button" id="searchMovieByName"
+              data-toggle="modal">Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="alert alert-danger alert-dismissible fade show loginAlert" id="loginAlert" role="alert" data-delay="2000" style="display: none;">
+  <h5>Login to use this feature</h5>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<!-- end of modal 1 -->
 {% endblock %}
 <script>
+  document.getElementById("searchMovieByName").addEventListener("click", function () {
+    let movieName = document.getElementById("movieNameInSearch").value;
+    let url = "http://www.omdbapi.com/?apikey={{ apikey }}";
+    let movie_title;
+    let movie_poster;
+    let movie_year;
+    let movie_director;
+    let movie_actors;
+    let movie_rating;
+    let movie_genre;
+    let movie_plot;
+    // alert(url + "&t=" + movieName);
+    getOmdbDataForSearch(url, movieName).then(function (data) {
+      console.log(data);
+      movie_title = data.Title;
+      movie_poster = data.Poster;
+      movie_year = data.Year;
+      movie_director = data.Director;
+      movie_actors = data.Actors;
+      movie_rating = data.imdbRating;
+      movie_genre = data.Genre;
+      movie_plot = data.Plot;
+      let stars ="<lord-icon src='https://cdn.lordicon.com/gbtkzxxm.json' trigger='loop' colors='primary:#ffc738' style='width:40px;height:40px'></lord-icon>";
+      document.getElementById("movieHeaderTitle").innerHTML = movie_title;
+      document.getElementById("moviePoster").src = movie_poster;
+      document.getElementById("movieYear").innerHTML =
+        "<span style='color:yellow;'>Year of Release : </span>" + movie_year;
+      document.getElementById("movieRating").innerHTML =
+        "<span style='color:yellow;'>Rating : </span>" + movie_rating + " " + stars;
+      document.getElementById("movieGenre").innerHTML =
+        "<span style='color:yellow;'>Genres : </span>" + movie_genre;
+      document.getElementById("movieDirector").innerHTML =
+        "<span style='color:yellow;'>Director : </span>" + movie_director;
+      document.getElementById("movieActors").innerHTML =
+        "<span style='color:yellow;'>Actors : </span>" + movie_actors;
+      document.getElementById("moviePlot").innerHTML =
+        "<span style='color:yellow;'>Movie Plot : </span>" + movie_plot;
+      $('#movieData').modal('show');
+    }).catch(function (error) {
+      console.log(error);
+    });
+
+  });
+  async function getOmdbDataForSearch(url, movieName) {
+    try {
+      return await fetch(url + '&t=' + movieName).then((response) => {
+        return response.json();
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  function hideCenterMenu(n){
+    if(n){
+      document.getElementById("nav").style.visibility = "hidden";
+    }else{
+      document.getElementById("nav").style.visibility = "visible";
+    }
+  }
   function setLinkAddress() {
+    if("{{ loginStatus }}"=="true"){
     let link = document.getElementById("searchNavLink");
     // window.scrollTo(0, document.getElementById("searchNav").offsetTop);
     link.href = "#searchNav";
+    }else{
+      document.getElementById("loginAlert").style.display = "block";
+    }
+  }
+  function movieSearch(n){
+    if(n==1)
+      document.getElementById("searchModal").style.display = "block";
+    else
+      document.getElementById("searchModal").style.display = "none";
   }
   let navToggle = document.querySelector(".nav_toggle");
   let navWrapper = document.querySelector(".nav_wrapper");

@@ -2,48 +2,19 @@
 
 <head>
     <style>
-        /* .body1_block{
-            width: 100%;
-            height: 120vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            background-color: var(--bg-color-base3);
-            overflow: hidden;
-            padding:5vh 0;
+      @media screen and (max-width: 500px) {
+        .bodyTitleBody1{
+          font-size: 16px !important;
         }
-        .body1_block_video{
-            width: 100%;
-            height: 70%;
-            padding: 50px 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .body2{
-            height: 30%;
-            background-color: transparent;
-        }
-        .owl-carousel{
-            z-index: 0 !important;
-        }
-        .body2 .item {
-        background: rgb(22, 22, 22);
-        height:200px;
-        margin: 10px;
-        overflow: hidden;
       }
-      .body2 .item img{
-        width: 100%;
-        height: 100%;
-      } */
     </style>
 </head>
 
 <body>
     {% block youtubeBlock %}
     <div class="body1_block" id="body1_block">
+      <h3 style="color:var(--text-color);font-size: 32px;" class="bodyTitleBody1">Watch out the latest Trailers</h3>
+      <h3 style="width:100px;height:5px; border-radius:2px;background-color:rgb(0, 55, 172);"></h3>
         <div class="body1_block_video">
             <iframe id="youtube-iframe" width="90%" height="100%" src="https://www.youtube.com/embed/AgS_6UbQ8JM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media;"></iframe>
         </div>
