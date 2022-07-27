@@ -58,7 +58,7 @@
 </div>
 <div class="alert alert-danger alert-dismissible fade show loginAlert" id="loginAlert" role="alert" data-delay="2000" style="display: none;">
   <h5>Login to use this feature</h5>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <button type="button" class="close" onclick="closeAlert()" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -142,6 +142,9 @@
     }else{
       document.getElementById("loginAlert").style.display = "block";
     }
+  }
+  function closeAlert(){
+    document.getElementById("loginAlert").style.display = "none";
   }
   function movieSearch(n){
     if(n==1)
