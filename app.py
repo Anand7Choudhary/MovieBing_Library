@@ -219,5 +219,14 @@ def setRecommendScrollFalse():
 def pagenotfound(e):
     return render_template("error404.html")
 
+# Admin Files
+@app.route("/admin")
+def admin():
+    return render_template("admin.html")
+
+@app.route("/adminRegister")
+def adminRegister():
+    return render_template("adminRegister.html")
+
 if __name__=="__main__":
     app.run(debug=True)
