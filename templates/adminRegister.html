@@ -60,7 +60,7 @@
         justify-content: center;
         align-items: center;
         }
-        .adminLoginForm {
+        .adminRegistrationForm {
         background-color: white;
         padding: 30px 50px;
         border-radius: 15px;
@@ -69,7 +69,7 @@
         color: rgb(37, 37, 37);
         width:50%;
         }
-        .adminLoginForm input{
+        .adminRegistrationForm input{
         background-color: rgba(255, 255, 255, 0.719);
         color: rgb(37, 37, 37);
         }
@@ -80,9 +80,13 @@
         body{
         height: fit-content;
         overflow-y: auto;
+        overflow: hidden;
         }
         .header{
         font-size: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         }
         .AdminLoginBody{
         flex-direction: column;
@@ -92,11 +96,18 @@
         width:400px;
         height:400px;
         margin-bottom: 20px;
+        display: none;
         }
-        .adminLoginForm{
+        .adminRegistrationForm{
         width: 90%;
         padding: 50px 25px;
         }
+        }
+        .error{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: red;
         }
     </style>
 </head>
@@ -107,62 +118,58 @@
         <div class="img">
             <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                 class="img-fluid" alt="Sample image"> -->
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+            <!-- <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                class="img-fluid" alt="Phone image"> -->
+            <img src="{{ url_for('static',filename='images/adminRegistrationImage.svg') }}"
                 class="img-fluid" alt="Phone image">
         </div>
-        <form class="adminLoginForm" id="adminLoginForm">
-            <!-- first name -->
+        <form class="adminRegistrationForm" id="adminRegistrationForm" action="/addAdmin" method="POST">
+            <p class="error">{{ error }}</p>
+            <!-- full name -->
             <div class="form-outline mb-2">
                 <!-- <label class="form-label" for="form3Example3">Email address</label> -->
-                <input type="text" id="form3Example3" class="form-control form-control-lg"
-                    placeholder="First Name" required />
+                <input type="text" id="fullname" class="form-control form-control-lg"
+                    placeholder="Full Name" name="fullname" required />
             </div>
-            <!-- Last name -->
+            <!-- Email input -->
             <div class="form-outline mb-2">
                 <!-- <label class="form-label" for="form3Example3">Email address</label> -->
-                <input type="text" id="form3Example3" class="form-control form-control-lg"
-                    placeholder="Last name" required />
+                <input type="email" id="email" class="form-control form-control-lg"
+                placeholder="Email address" name="email" required />
             </div>
+            
+            <!-- Password input -->
+            <div class="form-outline mb-2">
+                <!-- <label class="form-label" for="form3Example4">Password</label> -->
+                <input type="password" id="password" class="form-control form-control-lg"
+                placeholder="Enter password" name="password" required />
+            </div>
+
             <!-- Gender -->
             <div class="gender-block mb-2">
 
                 <h6>Gender: </h6>
 
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="femaleGender"
-                        value="option1" checked />
+                    <input class="form-check-input" type="radio" name="gender" id="femaleGender" value="female"
+                        checked />
                     <label class="form-check-label" for="femaleGender">Female</label>
                 </div>
 
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="maleGender"
-                        value="option2" />
+                    <input class="form-check-input" type="radio" name="gender" id="maleGender" value="male" />
                     <label class="form-check-label" for="maleGender">Male</label>
                 </div>
 
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="otherGender"
-                        value="option3" />
+                    <input class="form-check-input" type="radio" name="gender" id="otherGender" value="other" />
                     <label class="form-check-label" for="otherGender">Other</label>
                 </div>
 
             </div>
-            <!-- Email input -->
-            <div class="form-outline mb-2">
-                <!-- <label class="form-label" for="form3Example3">Email address</label> -->
-                <input type="email" id="form3Example3" class="form-control form-control-lg"
-                    placeholder="Email address" required />
-            </div>
-
-            <!-- Password input -->
-            <div class="form-outline mb-2">
-                <!-- <label class="form-label" for="form3Example4">Password</label> -->
-                <input type="password" id="form3Example4" class="form-control form-control-lg"
-                    placeholder="Enter password" required />
-            </div>
 
             <div class="text-center text-lg-start mt-2 pt-2">
-                <button type="button" class="btn btn-primary btn-lg"
+                <button type="submit" class="btn btn-primary btn-lg"
                     style="padding-left: 2.5rem; padding-right: 2.5rem">
                     Register
                 </button>

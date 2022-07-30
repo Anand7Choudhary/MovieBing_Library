@@ -1,11 +1,12 @@
 from distutils.log import debug
 import email
+from email.policy import default
 import json
-from enum import unique
+from enum import auto, unique
 from tabnanny import check
 from warnings import catch_warnings
 from xml.dom.pulldom import ErrorHandler
-from flask import Flask,render_template,request
+from flask import Flask,render_template,request,redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import column
 import re
@@ -22,8 +23,10 @@ app=Flask(
 
 # variables
 loginStatus = "flase"
-error=""
-
+adminLoggedIn = "false"
+error = ""
+adminEmail=""
+adminPassword=""
 
 
 
@@ -38,6 +41,7 @@ class MovieLib (db.Model):
     password=db.Column(db.String(30))
     fullname=db.Column(db.String(100),unique=False,nullable=False)
     gender=db.Column(db.String(20))
+    # blocked=db.Column(db.Integer,default=0,nullable=False,unique=False)
     def __repr__(self):
         # return f"{self.id} - {self.title}"
         return '<User %r>' % self.email
@@ -49,6 +53,17 @@ class ContactDb (db.Model):
     def __repr__(self):
         # return f"{self.id} - {self.title}"
         return '<Contact %r>' % self.id
+
+class AdminDb (db.Model):
+    id=db.Column(db.Integer,unique=True,autoincrement=True)
+    fullname=db.Column(db.String(100),unique=False,nullable=False)
+    email=db.Column(db.String(100),unique=False,nullable=False,primary_key=True)
+    password=db.Column(db.String(30))
+    gender=db.Column(db.String(20))
+    adminAccess=db.Column(db.Integer,unique=False,nullable=False,default=0)
+    def __repr__(self):
+        # return f"{self.id} - {self.title}"
+        return '<Admin %r>' % self.id
     
 #end of table creation
 
@@ -63,7 +78,7 @@ def addElements():
     username=request.form['uname']
     fullname=request.form['fname']
     # res = fullname != '' and all(chr.isalpha() or chr.isspace() for chr in fullname)
-    if not re.search("^[a-zA-Z\s]+$", fullname):
+    if not re.search("^[a-z,A-Z,\s]+$", fullname):
         return render_template('signup.html',error="Invalid Full Name")
     if(username.isspace()):
         return render_template('signup.html',error="Username cannot have spaces")
@@ -94,11 +109,11 @@ def addContactInfo():
             contactDb=ContactDb(email=email,content=content)
             db.session.add(contactDb)
             db.session.commit()
-            return render_template('index.html',contact_success="true",contact_success_message="Message Sent Successfully! We will get in touch with you ASAP.",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
     except:
         # return render_template("error404.html")
         return render_template('index.html',contact_success="true",contact_success_message="Message not Sent! Please try again later.",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
     # return render_template('index.html',contact_success="true",contact_success_message="",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
+    return render_template('index.html',contact_success="true",contact_success_message="Message Sent Successfully! We will get in touch with you ASAP.",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
 
 
 
@@ -132,6 +147,155 @@ def logoutUser():
     loginStatus="false"
     return render_template('index.html',loginStatus=loginStatus,showLoading="false",movies=movies,apikey="1cdc3975")
 
+@app.route("/addAdmin",methods=['GET','POST'])
+def addAdmin():
+    fullname=request.form['fullname']
+    email=request.form['email']
+    # res = fullname != '' and all(chr.isalpha() or chr.isspace() for chr in fullname)
+    if not re.search("^[a-z,A-Z,\s]+$", fullname):
+        print("not valid")
+        return render_template('adminRegister.html',error="Invalid Full Name")
+    else:
+        try:
+            checkEmail=AdminDb.query.filter_by(email=request.form['email']).first()
+            if(checkEmail!=None):
+                print("valid3")
+                return render_template('adminRegister.html',error="Email already exists")
+            if request.method=='POST':
+                fname=request.form['fullname']
+                email=request.form['email']
+                password=request.form['password']
+                gender=request.form['gender']
+                adminDb=AdminDb(fullname=fname,email=email,password=password,gender=gender,adminAccess=0)
+                db.session.add(adminDb)
+                db.session.commit()  
+        except:
+            return render_template('error404.html')
+    return render_template('admin.html',error="")
+
+# @app.route("/adminLogin",methods=['GET','POST'])
+# def adminLogin():
+#     try:
+#         if(request.method=='POST'):
+#             userPresent=AdminDb.query.filter_by(email=request.form['email']).first()
+#         if(userPresent==None):
+#             return render_template('admin.html',error="User not found")
+#         check_email=userPresent.email
+#         check_pass=userPresent.password
+#         fullname=userPresent.fullname
+#         if(check_email==request.form['email'] and check_pass==request.form['password']):
+#             global adminLoggedIn
+#             adminLoggedIn="true"
+#             adminDetails=AdminDb.query.filter_by(email=request.form['email']).first()
+#             allUser=MovieLib.query.all()
+#             return render_template("adminHome.html",adminLoggedIn=adminLoggedIn,fullname=fullname,allUser=allUser,adminDetails=adminDetails)
+#         else:
+#             return render_template('admin.html',error="Invalid Password")
+#         # checkUsername=MovieLib.query.filter_by(username=request.form['uname']).first()
+#     except:
+#         return render_template('error404.html')
+
+@app.route("/adminLogin",methods=['GET','POST'])
+def adminLogin():
+    try:
+        global adminEmail,adminPassword
+        adminEmail=request.form['email']
+        print("al "+adminEmail)
+        adminPassword=request.form['password']
+        if(request.method=='POST'):
+            userPresent=AdminDb.query.filter_by(email=request.form['email']).first()
+        if(userPresent==None):
+            return render_template('admin.html',error="User not found")
+        return redirect("/adminLoginBackend")
+    except:
+        print("al "+"error")
+        return render_template('error404.html')
+    
+    
+@app.route("/adminLoginBackend")
+def adminLoginBackend():
+    try:
+        print("entered")
+        global adminEmail,adminPassword
+        print("alb "+adminEmail)
+        userPresent=AdminDb.query.filter_by(email=adminEmail).first()
+        if(userPresent==None):
+            print("Why here?")
+            return render_template('admin.html',error="User not found")
+        if(userPresent.adminAccess==0):
+            return render_template('admin.html',error="Admin not authorized")
+        else:
+            check_email=userPresent.email
+            check_pass=userPresent.password
+            fullname=userPresent.fullname
+            print("alb "+check_email)
+            if(check_email==adminEmail and check_pass==adminPassword):
+                print("going good")
+                global adminLoggedIn
+                adminLoggedIn="true"
+                # global adminEmail,adminPassword
+                adminDetails=AdminDb.query.filter_by(email=adminEmail).first()
+                print("working here1")
+                allUser=MovieLib.query.all()
+                print("working here2")
+                # all messages in reverse order
+                allMessage=ContactDb.query.order_by(ContactDb.id.desc()).all()
+                # allMessage=ContactDb.query.all()
+                print("working here3")
+                allAdmins=AdminDb.query.all()
+                # adminEmail=""
+                # adminPassword=""
+                return render_template('adminHome.html',allAdmins=allAdmins,allMessages=allMessage,adminLoggedIn=adminLoggedIn,fullname=fullname,allUser=allUser,adminDetails=adminDetails)
+            else:
+                return render_template('admin.html',error="Invalid Password")
+            # checkUsername=MovieLib.query.filter_by(username=request.form['uname']).first()
+    except:
+        print("alb "+"error")
+        return render_template('error404.html')
+
+@app.route("/adminLogout",methods=['GET','POST'])
+def logoutAdmin():
+    global adminLoggedIn
+    adminLoggedIn="false"
+    return render_template('admin.html')
+
+
+# delete user
+@app.route('/updateAdminAccess/<int:n>/<email>/<adminemail>/<adminpassword>')
+def updateAdminAccess(n,email,adminemail,adminpassword):
+    try:
+        print("hello"+email)
+        admin = AdminDb.query.filter_by(email=email).first()
+        if(n==0):
+            admin.adminAccess=0
+        else:
+            admin.adminAccess=1
+        db.session.add(admin)
+        db.session.commit()
+        global adminEmail,adminPassword
+        adminEmail=adminemail
+        adminPassword=adminpassword
+        # return render_template('adminHome.html', allUser=allUser)
+        return redirect("/adminLoginBackend")
+    except:
+        print("error")
+        return render_template('error404.html')
+
+@app.route('/delete/<email>/<adminemail>/<adminpassword>')
+def delete(email,adminemail,adminpassword):
+    try:
+        print("hello"+email)
+        user = MovieLib.query.filter_by(email=email).first()
+        db.session.delete(user)
+        db.session.commit()
+        global adminEmail,adminPassword
+        adminEmail=adminemail
+        adminPassword=adminpassword
+        # return render_template('adminHome.html', allUser=allUser)
+        return redirect("/adminLoginBackend")
+    except:
+        print("error")
+        return render_template('error404.html')
 # 
 # 
 # 
@@ -222,7 +386,7 @@ def pagenotfound(e):
 # Admin Files
 @app.route("/admin")
 def admin():
-    return render_template("admin.html")
+    return render_template("admin.html",error="")
 
 @app.route("/adminRegister")
 def adminRegister():

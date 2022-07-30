@@ -64,7 +64,7 @@
 </div>
 <div class="alert alert-danger alert-dismissible fade show movieNotFoundAlert" id="movieNotFoundAlert" role="alert" data-delay="2000" style="display: none;">
   <h5>Movie Not found!</h5>
-  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+  <button type="button" class="close" onclick="closeNotFoundAlert()" aria-label="Close">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
@@ -118,6 +118,9 @@
     });
 
   });
+  function closeNotFoundAlert(){
+    document.getElementById("movieNotFoundAlert").style.display="none";
+  }
   async function getOmdbDataForSearch(url, movieName) {
     try {
       return await fetch(url + '&t=' + movieName).then((response) => {

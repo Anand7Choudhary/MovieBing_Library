@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style/adminHome.css') }}">
+</head>
+<body>
+    {% if adminLoggedIn=="true" %}
+    <header>
+        <p class="adminName">{{ fullname }}</p>
+        <form action="/adminLogout" method="POST">
+            <h5><span class="iconify" data-icon="charm:refresh" onclick="refreshDocument()"></span></h5>
+            <button type="submit" class="btn btn-info">Log Out</button>
+        </form>
+    </header>
+    <div class="mainBody">
+        <div class="leftSection">
+            <button type="submit" class="btn btn-info m-2" onclick="showBody(0)">User Statistics</button>
+            <button type="submit" class="btn btn-info m-2" onclick="showBody(1)">Messages</button>
+            <button type="submit" class="btn btn-info m-2" onclick="showBody(2)">Admin Stats</button>
+        </div>
+        <div class="rightSection">
+            <div class="userStaticsBody rightDiv" id="element1">
+                <div class="userTable miniDiv">
+                    <div class="miniDivHeader">
+                    <h4>User Details</h4>
+                    </div>
+                    {% if allUser|length == 0 %}
+
+                    <div class="alert alert-dark" role="alert">
+                        No User's Found!
+                    </div>
+                    {% else %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">SNo</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">email</th>
+                                <th scope="col">fullname</th>
+                                <th scope="col">gender</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for user in allUser %}
+                            <tr>
+                                <th scope="row">{{loop.index}}</th>
+                                <td>{{user.username}}</td>
+                                <td>{{user.email}}</td>
+                                <td>{{user.fullname}}</td>
+                                <td>{{user.gender}}</td>
+                                <td>
+                                    <!-- <a href="/update/{{user.sno}}" type="button"
+                                        class="btn btn-outline-danger btn-sm mx-1">Block</button>
+                                        <a href="/delete/{{user.sno}}" type="button"
+                                            class="btn btn-outline-success btn-sm mx-1">Unblock</button> -->
+                                    <a href="/delete/{{user.email}}/{{adminDetails.email}}/{{adminDetails.password}}">
+                                        <button class="btn btn-outline-danger btn-sm mx-1">Delete</button>
+                                    </a> 
+                                </td>
+                            </tr>
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+                <!-- <div class="functions">
+                    <div class="leftFunction miniDiv"></div>
+                    <div class="rightFunction miniDiv"></div>
+                </div> -->
+            </div>
+            <div class="messageBody rightDiv" id="element2">
+                <div class="userTable miniDiv">
+                    <div class="miniDivHeader">
+                        <h4>Messages</h4>
+                    </div>
+                    {% if allMessages|length == 0 %}
+                    <div class="alert alert-dark" role="alert">
+                        No Messages Found!
+                    </div>
+                    {% else %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Id</th>
+                                <th scope="col">email</th>
+                                <th scope="col" colspan="3">Content</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for msg in allMessages %}
+                            <tr>
+                                <th scope="row">{{loop.index}}</th>
+                                <!-- <td>{{msg.id}}</td> -->
+                                <td>{{msg.email}}</td>
+                                <td colspan="3">{{msg.content}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="adminStaticsBody rightDiv" id="element3">
+                    <div class="userTable miniDiv">
+                        <div class="miniDivHeader">
+                            <h4>Admins</h4>
+                        </div>
+                        {% if allAdmins|length == 0 %}
+
+                        <div class="alert alert-dark" role="alert">
+                            No Other Admin Found!
+                        </div>
+                        {% else %}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">SNo</th>
+                                    <th scope="col">email</th>
+                                    <th scope="col">fullname</th>
+                                    <th scope="col">gender</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for admin in allAdmins %}
+                                {% if admin.email!=adminDetails.email %}
+                                <tr>
+                                    <th scope="row">{{loop.index}}</th>
+                                    <td>{{admin.email}}</td>
+                                    <td>{{admin.fullname}}</td>
+                                    <td>{{admin.gender}}</td>
+                                    {% if admin.adminAccess==1 %}
+                                        <td>Un-Blocked</td>
+                                    {% else %}
+                                        <td>Blocked</td>
+                                    {% endif %}
+                                    <td>
+                                        <a href="/updateAdminAccess/0/{{admin.email}}/{{adminDetails.email}}/{{adminDetails.password}}">
+                                            <button class="btn btn-outline-success btn-sm mx-1">Block</button>
+                                        </a>
+                                        <a href="/updateAdminAccess/1/{{admin.email}}/{{adminDetails.email}}/{{adminDetails.password}}">
+                                            <button class="btn btn-outline-danger btn-sm mx-1">Unlock</button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                    </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-dark text-center text-white">
+        <!-- Grid container -->
+        <div class="container p-4 pb-0">
+            <!-- Section: Social media -->
+            <section class="mb-4">
+                <!-- Linkedin -->
+                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><span class="iconify"
+                        data-icon="brandico:facebook-rect"></span></a>
+
+                <!-- Github -->
+                <a class="btn btn-outline-light btn-floating m-1" href="#!" role="button"><span class="iconify"
+                        data-icon="fa-brands:github-square"></span></a>
+            </section>
+        </div>
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            <a class="text-white" href="/">MovieLib.com</a>
+        </div>
+    </footer>
+    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
+    </script>
+    <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+    <script>
+        const showBody=(n)=>{
+            if(sessionStorage.getItem('currentAdminBlock')==null){
+                n=0;
+            }
+            let x=document.querySelectorAll(".rightDiv");
+            for(let i=0;i<x.length;i++){
+                if(i==n){
+                    x[i].style.display="block";
+                    sessionStorage.setItem('currentAdminBlock',i);
+                }
+                else{
+                    x[i].style.display="none";
+                }
+            }
+        }
+        showBody(sessionStorage.getItem('currentAdminBlock'));
+        function refreshDocument() {
+            location.reload();
+        }
+    </script>
+</body>
+
+</html>

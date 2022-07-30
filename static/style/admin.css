@@ -49,6 +49,7 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
+    margin:0 15px;
 }
 .adminLoginForm {
     background-color: white;
@@ -62,22 +63,35 @@ body{
     background-color: rgba(255, 255, 255, 0.719);
     color: rgb(37, 37, 37);
 }
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: red;
+}
 @media screen and (max-width:800px){
     body{
         height: fit-content;
         overflow-y: auto;
+        overflow: hidden;
     }
     .header{
         font-size: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 10vh;
     }
     .AdminLoginBody{
+        height: 90vh;
         flex-direction: column;
         padding:0 10px 50px 10px;
     }
     .img{
-        width:400px;
-        height:400px;
+        width:300px;
+        height:300px;
         margin-bottom: 20px;
+        display: none;
     }
     .adminLoginForm{
         width: 90%;
