@@ -105,7 +105,7 @@
                         </button> -->
                     </div>
                     <div class="modal-body bg-dark">
-                        <form action="/addContact" method="POST">
+                        <form action="/addContact" method="POST" id="contactForm">
                             <div class="form-group">
                                 <label for="recipient-name" class="col-form-label">Email:</label>
                                 <input style="background-color: transparent;color:white" type="email"
@@ -117,7 +117,7 @@
                                     name="message-text" id="message-text" minlength="10" required="required"></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" id="closeContactForm" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">
                                     <lord-icon src="https://cdn.lordicon.com/rhvddzym.json" trigger="loop"
                                         colors="primary:#ffffff,secondary:#a866ee" style="width:35px;height:35px">
@@ -132,6 +132,25 @@
     </div>
     {% endblock contactus %}
     <script>
+        // document.getElementById("contactForm").history.replaceState(null, null, window.location.href);
+        //prevent contactForm from submitting after reload of page
+        // document.getElementById("contactForm").addEventListener("submit", function(e) {
+        //     e.preventDefault();
+        //     var form = this;
+        //     var formData = new FormData(form);
+        //     var xhr = new XMLHttpRequest();
+        //     xhr.open("POST", "/addContact");
+        //     xhr.send(formData);
+        //     xhr.onload = function() {
+        //         if (xhr.status == 200) {
+        //             alert("Message sent successfully!");
+        //             form.reset();
+        //         } else {
+        //             alert("Message failed to send!");
+        //         }
+        //     };
+        //     document.getElementById("closeContactForm").click();
+        // });
         let xyz1 = document.getElementById("contact-button").addEventListener("mouseover", function () {
             document.getElementById("hover-effect").classList.add("hover-effect-addClass");
         });

@@ -15,7 +15,7 @@
     <header>
         <p class="adminName">{{ fullname }}</p>
         <form action="/adminLogout" method="POST">
-            <h5><span class="iconify" data-icon="charm:refresh" onclick="refreshDocument()"></span></h5>
+            <!-- <h5><span class="iconify" data-icon="charm:refresh" onclick="refreshDocument()"></span></h5> -->
             <button type="submit" class="btn btn-info">Log Out</button>
         </form>
     </header>
@@ -30,6 +30,12 @@
                 <div class="userTable miniDiv">
                     <div class="miniDivHeader">
                     <h4>User Details</h4>
+                    <h5>
+                        <lord-icon src="https://cdn.lordicon.com/dsoshxtl.json" trigger="hover"
+                            colors="primary:#4be1ec,secondary:#cb5eee" stroke="100" style="width:50px;height:50px"
+                            onclick="refreshDocument()">
+                        </lord-icon>
+                    </h5>
                     </div>
                     {% if allUser|length == 0 %}
 
@@ -82,6 +88,12 @@
                 <div class="userTable miniDiv">
                     <div class="miniDivHeader">
                         <h4>Messages</h4>
+                        <h5>
+                            <lord-icon src="https://cdn.lordicon.com/dsoshxtl.json" trigger="hover"
+                                colors="primary:#4be1ec,secondary:#cb5eee" stroke="100" style="width:50px;height:50px"
+                                onclick="refreshDocument()">
+                            </lord-icon>
+                        </h5>
                     </div>
                     {% if allMessages|length == 0 %}
                     <div class="alert alert-dark" role="alert">
@@ -115,6 +127,12 @@
                     <div class="userTable miniDiv">
                         <div class="miniDivHeader">
                             <h4>Admins</h4>
+                            <h5>
+                                <lord-icon src="https://cdn.lordicon.com/dsoshxtl.json" trigger="hover"
+                                    colors="primary:#4be1ec,secondary:#cb5eee" stroke="100"
+                                    style="width:50px;height:50px" onclick="refreshDocument()">
+                                </lord-icon>
+                            </h5>
                         </div>
                         {% if allAdmins|length == 0 %}
 
@@ -138,21 +156,21 @@
                                 {% for admin in allAdmins %}
                                 {% if admin.email!=adminDetails.email %}
                                 <tr>
-                                    <th scope="row">{{loop.index}}</th>
+                                    <th scope="row">{{loop.index-1}}</th>
                                     <td>{{admin.email}}</td>
                                     <td>{{admin.fullname}}</td>
                                     <td>{{admin.gender}}</td>
                                     {% if admin.adminAccess==1 %}
-                                        <td>Un-Blocked</td>
+                                        <td style="color: green;">Un-Blocked</td>
                                     {% else %}
-                                        <td>Blocked</td>
+                                        <td style="color: red;">Blocked</td>
                                     {% endif %}
                                     <td>
-                                        <a href="/updateAdminAccess/0/{{admin.email}}/{{adminDetails.email}}/{{adminDetails.password}}">
-                                            <button class="btn btn-outline-success btn-sm mx-1">Block</button>
-                                        </a>
                                         <a href="/updateAdminAccess/1/{{admin.email}}/{{adminDetails.email}}/{{adminDetails.password}}">
-                                            <button class="btn btn-outline-danger btn-sm mx-1">Unlock</button>
+                                            <button class="btn btn-outline-success btn-sm mx-1">Unlock</button>
+                                        </a>
+                                        <a href="/updateAdminAccess/0/{{admin.email}}/{{adminDetails.email}}/{{adminDetails.password}}">
+                                            <button class="btn btn-outline-danger btn-sm mx-1">Block</button>
                                         </a>
                                     </td>
                                 </tr>
@@ -191,6 +209,7 @@
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
     </script>
     <script src="https://code.iconify.design/2/2.2.1/iconify.min.js"></script>
+    <script src="https://cdn.lordicon.com/xdjxvujz.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"
         integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script>

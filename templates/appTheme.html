@@ -1,144 +1,285 @@
 <html>
-  <head>
-    <style>
-        .themeBody,.moveUp{
-            position: fixed;
-            right:1rem;
-            bottom:2rem;
-            background-image: url("/static/images/meshGrad1.png");
-            background-size: 300%;
-            background-position: center;
-            padding:10px;
-            border-radius: 50px;
-            outline: none;
-            width:50px;
-            height:50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-        }
-        .themeBody{
-          animation: 0.25s ease-in-out forwards;
-        }
-        .moveUp{
-          display: none;
-          animation: 1s ease-in-out forwards;
-        }
-        .themeElement{
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-            font-size: 30px;
-            margin:0 0 19px 3px;
-            padding:0;
-            color: #ffffff;
-        }
-         .moveUpElement{
-          cursor: pointer;
-          font-size: 30px;
-          font-weight: bolder;
-          margin: -10px 0 0 1px;
-         }
-         .moveUpElement a{
-          color: #ffffff;
-         }
-        .darkIcon{
-            display: none;
-            margin-left:7px;
-        }
-        .lightIcon{
-            display: block;
-        }
-        @keyframes slideUp{
-          0%{
-            transform: translateY(0);
-          }
-          100%{
-            transform: translateY(-120%);
-          }
-        }
-        @keyframes slideDown{
-          0%{
-            transform: translateY(-120%);
-          }
-          100%{
-            transform: translateY(0);
-          }
-        }
-        @keyframes slideIn{
-          0%{
-            transform: translateX(120%);
-          }
-          100%{
-            transform: translateX(0);
-          }
-        }
-        @keyframes slideOut{
-          0%{
-            transform: translateX(0);
-          }
-          100%{
-            transform: translateX(150%);
-            display: none;
-          }
-        }
-        @media screen and (min-width: 600px) {
-          .themeBody, .moveUp{
-            width:60px;
-            height:60px;
-          }
-          .themeElement{
-            font-size: 35px;
-            margin:0 0 16px 3px;
-          }
-          .moveUpElement{
-          font-size: 35px;
-          font-weight: bolder;
-          margin-left: 4px;
-          margin-top:-10px;
-         }
-          .darkIcon{
-            margin:0 0 18px 4px;
-          }
-        }
-    </style>
-  </head>
-  <body>
-    {% block apptheme %}
-    <div class="themeBody" id="themeBody">
-      <p class="themeElement darkIcon" id="darkIcon" onclick="changeTheme(0)">
-        <span class="iconify" data-icon="bxs:moon"></span>
-      </p>
-      <p class="themeElement lightIcon" id="lightIcon" onclick="changeTheme(1)">
-        <span class="iconify" data-icon="heroicons-solid:sun"></span>
-      </p>
-    </div>
-    <div class="moveUp" id="moveUp">
-      <a href="#topHeader" style="position: absolute;width:100%;height:100%;background-color:transparent;"></a>
-      <p class="moveUpElement" id="moveUp">
-        <a href="#topHeader" style="text-decoration: none;"><span class="iconify" data-icon="akar-icons:arrow-up"></span></a>
-      </p>
-    </div>
-    <div style="position:absolute;top:0;left:0;width:1px;height:1px;visibility: hidden;background-color: transparent;z-index:-999" id="topHeader"></div>
-    {% endblock apptheme %}
-    <script>
-        let darkIcon = document.getElementById('darkIcon');
-        let lightIcon = document.getElementById('lightIcon');
-        const changeTheme=(n)=>{
-            if(n==1){
-                darkIcon.style.display='block';
-                lightIcon.style.display='none';
-                document.documentElement.setAttribute('data-theme',"light");
-                window.localStorage.setItem('theme','light');
 
-            }else{
-                darkIcon.style.display='none';
-                lightIcon.style.display='block';
-                document.documentElement.setAttribute('data-theme',"dark");
-                window.localStorage.setItem('theme','dark');
-            }
-        }
-    </script>
-  </body>
+<head>
+  <style>
+    .themeBody,
+    .moveUp,
+    .accountSettingBody {
+      position: fixed;
+      right: 1rem;
+      bottom: 2rem;
+      background-image: url("/static/images/meshGrad1.png");
+      background-size: 300%;
+      background-position: center;
+      padding: 10px;
+      border-radius: 50px;
+      outline: none;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+
+    .accountSettingBody {
+      position: fixed;
+      left: 2rem;
+      bottom: 2rem;
+      cursor: pointer;
+      width: 80px;
+      height: 80px;
+    }
+
+    .accountSettingBody .icon {
+      margin-top: 20px;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+    }
+
+    .themeBody {
+      animation: 0.25s ease-in-out forwards;
+    }
+
+    .moveUp {
+      display: none;
+      animation: 1s ease-in-out forwards;
+    }
+
+    .themeElement {
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      font-size: 30px;
+      margin: 0 0 19px 3px;
+      padding: 0;
+      color: #ffffff;
+    }
+
+    .moveUpElement {
+      cursor: pointer;
+      font-size: 30px;
+      font-weight: bolder;
+      margin: -10px 0 0 1px;
+    }
+
+    .moveUpElement a {
+      color: #ffffff;
+    }
+
+    .darkIcon {
+      display: none;
+      margin-left: 7px;
+    }
+
+    .lightIcon {
+      display: block;
+    }
+
+    .accountDetails {
+      background-color: rgba(48, 48, 48, 0.752);
+    }
+
+    .accountDetails .modal-dialog {
+      background: rgba(15, 15, 15, 0.778);
+      /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+      backdrop-filter: blur(1.5px);
+      -webkit-backdrop-filter: blur(1.5px);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .accountDetails .modal-dialog .modal-content {
+      background-color: transparent;
+      color: white;
+    }
+
+    .accountDetails .modal-dialog .modal-content .accountSettingForm {
+      padding: 0 30px;
+    }
+
+    .accountDetails .modal-dialog .modal-content .accountSettingForm input {
+      background-color: transparent;
+      border: 2px solid rgb(94, 94, 94);
+      color: white;
+      margin: 5px 0;
+    }
+
+    @keyframes slideUp {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(-120%);
+      }
+    }
+
+    @keyframes slideDown {
+      0% {
+        transform: translateY(-120%);
+      }
+
+      100% {
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideIn {
+      0% {
+        transform: translateX(120%);
+      }
+
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideOut {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(150%);
+        display: none;
+      }
+    }
+
+    @media screen and (min-width: 600px) {
+
+      .themeBody,
+      .moveUp {
+        width: 60px;
+        height: 60px;
+      }
+
+      .themeElement {
+        font-size: 35px;
+        margin: 0 0 16px 3px;
+      }
+
+      .moveUpElement {
+        font-size: 35px;
+        font-weight: bolder;
+        margin-left: 4px;
+        margin-top: -10px;
+      }
+
+      .darkIcon {
+        margin: 0 0 18px 4px;
+      }
+    }
+
+    @media screen and (max-width:601px) {
+      .accountSettingBody {
+        left: 1rem;
+        width: 60px;
+        height: 60px;
+      }
+
+      .accountSettingBody .icon {
+        margin-top: 20px;
+        width: 50px;
+        height: 50px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  {% block apptheme %}
+  <div class="themeBody" id="themeBody">
+    <p class="themeElement darkIcon" id="darkIcon" onclick="changeTheme(0)">
+      <span class="iconify" data-icon="bxs:moon"></span>
+    </p>
+    <p class="themeElement lightIcon" id="lightIcon" onclick="changeTheme(1)">
+      <span class="iconify" data-icon="heroicons-solid:sun"></span>
+    </p>
+  </div>
+  <div class="moveUp" id="moveUp">
+    <a href="#topHeader" style="position: absolute;width:100%;height:100%;background-color:transparent;"></a>
+    <p class="moveUpElement" id="moveUp">
+      <a href="#topHeader" style="text-decoration: none;"><span class="iconify"
+          data-icon="akar-icons:arrow-up"></span></a>
+    </p>
+  </div>
+  <div
+    style="position:absolute;top:0;left:0;width:1px;height:1px;visibility: hidden;background-color: transparent;z-index:-999"
+    id="topHeader"></div>
+  {% if userDetails.fullname==null %}
+  <div style="display:none;z-index:-999;"></div>
+  {% else %}
+  <div class="accountSettingBody" id="accountSettingBody" data-toggle="modal" data-target="#accountDetails">
+    <p class="accountSetting" id="accountSetting">
+      <lord-icon src="https://cdn.lordicon.com/wxnxiano.json" trigger="morph" stroke="100"
+        colors="primary:#ffffff,secondary:#ffffff" class="icon">
+      </lord-icon>
+    </p>
+  </div>
+  <!-- modal -->
+  <div class="modal fade accountDetails" id="accountDetails" data-backdrop="static" data-keyboard="false" tabindex="-1"
+    aria-labelledby="accountDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+      <form class="modal-content accountSettingForm" id="accountSettingForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="accountDetailsLabel">Account Settings</h5>
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+        </div>
+        <div class="modal-body">
+          <label for="fullName">Full Name : </label>
+          <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Full Name"
+            value="{{userDetails.fullname}}">
+          <label for="password">Password : <span id="UpdateError" style="color: red;">{{updateError}}</span></label>
+          <input type="text" class="form-control" id="password" name="password" placeholder="Password"
+            value="{{userDetails.password}}">
+
+        </div>
+        <div class="modal-footer">
+          <a id="updateAccountBtn" style="cursor: pointer;">
+            <button type="submit" style="cursor: pointer;" class="btn btn-outline-success" onclick="reallyUpdate()">Update</button>
+            <button type="submit" style="cursor: pointer;" class="btn btn-outline-danger" onclick="reallyDelete()">Delete</button>
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+  <!-- end of modal -->
+  {% endif %}
+  {% endblock apptheme %}
+  <script>
+     function reallyUpdate() {
+      document.getElementById("accountSettingForm").method = "POST";
+      document.getElementById("accountSettingForm").action = "/updateUserAccount/{{userDetails.email}}";
+     }
+    function reallyDelete() {
+      let response = confirm("Are you sure you want to delete your account?");
+      if (response) {
+        document.getElementById("accountSettingForm").method = "POST";
+        document.getElementById("accountSettingForm").action = "/deleteUserAccount/{{userDetails.email}}";
+      }else{
+        document.getElementById("accountSettingForm").action = "/";
+      }
+    }
+    let darkIcon = document.getElementById('darkIcon');
+    let lightIcon = document.getElementById('lightIcon');
+    const changeTheme = (n) => {
+      if (n == 1) {
+        darkIcon.style.display = 'block';
+        lightIcon.style.display = 'none';
+        document.documentElement.setAttribute('data-theme', "light");
+        window.localStorage.setItem('theme', 'light');
+
+      } else {
+        darkIcon.style.display = 'none';
+        lightIcon.style.display = 'block';
+        document.documentElement.setAttribute('data-theme', "dark");
+        window.localStorage.setItem('theme', 'dark');
+      }
+    }
+  </script>
+</body>
+
 </html>

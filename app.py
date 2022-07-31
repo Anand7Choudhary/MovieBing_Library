@@ -27,6 +27,7 @@ adminLoggedIn = "false"
 error = ""
 adminEmail=""
 adminPassword=""
+userDetails=""
 
 
 
@@ -77,11 +78,18 @@ class AdminDb (db.Model):
 def addElements():
     username=request.form['uname']
     fullname=request.form['fname']
+    password=request.form['password']
     # res = fullname != '' and all(chr.isalpha() or chr.isspace() for chr in fullname)
+    # check if anything is empty
+    if username == '' or fullname == '' or password == '':
+        error = "Please fill all the fields"
+        return render_template('addUser.html',error=error)
     if not re.search("^[a-z,A-Z,\s]+$", fullname):
         return render_template('signup.html',error="Invalid Full Name")
-    if(username.isspace()):
+    if (bool(re.search(r"\s", username))):
         return render_template('signup.html',error="Username cannot have spaces")
+    if len(password)<8:
+        return render_template('signup.html',error="Password must be atleast 8 characters long")
     try:
         checkEmail=MovieLib.query.filter_by(email=request.form['email']).first()
         checkUsername=MovieLib.query.filter_by(username=request.form['uname']).first()
@@ -111,9 +119,9 @@ def addContactInfo():
             db.session.commit()
     except:
         # return render_template("error404.html")
-        return render_template('index.html',contact_success="true",contact_success_message="Message not Sent! Please try again later.",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
+        return render_template('index.html',userDetails=userDetails,contact_success="true",contact_success_message="Message not Sent! Please try again later.",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
     # return render_template('index.html',contact_success="true",contact_success_message="",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
-    return render_template('index.html',contact_success="true",contact_success_message="Message Sent Successfully! We will get in touch with you ASAP.",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
+    return render_template('index.html',userDetails=userDetails,contact_success="true",contact_success_message="Message Sent Successfully! We will get in touch with you ASAP.",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
 
 
 
@@ -132,11 +140,14 @@ def loginUser():
         if(check_email==request.form['email'] and check_pass==request.form['password']):
             global loginStatus
             loginStatus="true"
-            return render_template('index.html',loginStatus=loginStatus,movies=movies,apikey="1cdc3975",showLoading="true")
+            global userDetails
+            userDetails=MovieLib.query.filter_by(email=request.form['email']).first()
+            return render_template('index.html',userDetails=userDetails,loginStatus=loginStatus,movies=movies,apikey="1cdc3975",showLoading="true")
         else:
             return render_template('login.html',error="Invalid Password")
         # checkUsername=MovieLib.query.filter_by(username=request.form['uname']).first()
     except:
+        print("hello4")
         return render_template('error404.html')
 
 
@@ -145,16 +156,24 @@ def loginUser():
 def logoutUser():
     global loginStatus
     loginStatus="false"
-    return render_template('index.html',loginStatus=loginStatus,showLoading="false",movies=movies,apikey="1cdc3975")
+    global userDetails
+    userDetails=None
+    return render_template('index.html',userDetails=userDetails,loginStatus=loginStatus,showLoading="false",movies=movies,apikey="1cdc3975")
 
 @app.route("/addAdmin",methods=['GET','POST'])
 def addAdmin():
     fullname=request.form['fullname']
     email=request.form['email']
+    password=request.form['password']
     # res = fullname != '' and all(chr.isalpha() or chr.isspace() for chr in fullname)
+    if fullname == '' or password == '':
+        error = "Please fill all the fields"
+        return render_template('addUser.html',error=error)
     if not re.search("^[a-z,A-Z,\s]+$", fullname):
         print("not valid")
         return render_template('adminRegister.html',error="Invalid Full Name")
+    if len(password)<8:
+        return render_template('adminRegister.html',error="Password must be atleast 8 characters long")
     else:
         try:
             checkEmail=AdminDb.query.filter_by(email=request.form['email']).first()
@@ -296,6 +315,47 @@ def delete(email,adminemail,adminpassword):
     except:
         print("error")
         return render_template('error404.html')
+    
+@app.route('/deleteUserAccount/<email>',methods=['GET','POST'])
+def deleteUserAccount(email):
+    try:
+        if(request.method=='POST'):
+            print("hello"+email)
+            user = MovieLib.query.filter_by(email=email).first()
+            print("1")
+            db.session.delete(user)
+            print("2")
+            db.session.commit()
+            print("3")
+            return redirect("/login")
+    except:
+        print("error")
+        return render_template('error404.html')
+    
+@app.route('/updateUserAccount/<email>',methods=['GET','POST'])
+def updateUserAccount(email):
+    try:
+        if(request.method=='POST'):
+            global userDetails
+            if(len(request.form['password'])<8):
+                return render_template('index.html',userDetails=userDetails,loginStatus=loginStatus,movies=movies,apikey="1cdc3975",showLoading="true",updateError="Password must be atleast 8 characters long")
+            else:
+                print("hello"+email)
+                user = MovieLib.query.filter_by(email=email).first()
+                print("xyz")
+                print(request.form['fullName'])
+                user.password=request.form['password']
+                print("here")
+                user.fullname=request.form['fullName']
+                db.session.add(user)
+                db.session.commit()
+                print("well")
+                userDetails=MovieLib.query.filter_by(email=email).first()
+                return render_template('index.html',updateError="",userDetails=userDetails,loginStatus=loginStatus,movies=movies,apikey="1cdc3975",showLoading="true")
+                # return render_template('adminHome.html', allUser=allUser)
+    except:
+        print("error")
+        return render_template('error404.html')
 # 
 # 
 # 
@@ -346,9 +406,9 @@ def recommendations():
         linkList='...'.join(listLink)
         print(movieList)
         # return (movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975")
-        return render_template("index.html", movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="true")
+        return render_template("index.html",userDetails=userDetails, movieList=movieList, linkList=linkList,movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="true")
     except Exception as e:
-        return render_template("index.html", error=e,movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
+        return render_template("index.html",userDetails=userDetails, error=e,movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
 
 
 # end of main model engine
@@ -361,7 +421,7 @@ def recommendations():
 # HTML code links
 @app.route("/")
 def home():
-    return render_template("index.html",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="true")
+    return render_template("index.html",userDetails=userDetails,movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="true")
 
 @app.route("/signup")
 def signup():
@@ -377,7 +437,7 @@ def login():
 
 @app.route("/setRecommendScrollFalse")
 def setRecommendScrollFalse():
-    return render_template("index.html",recommendScroll="false",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
+    return render_template("index.html",userDetails=userDetails,recommendScroll="false",movies=movies,apikey="1cdc3975",loginStatus=loginStatus,showLoading="false")
 
 @app.errorhandler(404)
 def pagenotfound(e):

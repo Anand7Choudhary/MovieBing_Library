@@ -21,7 +21,7 @@
       position: fixed !important;
       bottom:0;
       left:0;
-      z-index:2;
+      z-index:5000;
     }
     .loader{  
        height: 100vh;  
@@ -73,7 +73,11 @@
   </div>
   {% endif %}
   {% include 'navBar.html' %}
+
+  {% with userDetails=userDetails %}
   {% include 'appTheme.html' %}
+  {% endwith %}
+
   <!-- end of navbar and theme buttons -->
   <div class="landingBody" id="landingBody">
     <div class="side1 sides">
@@ -153,12 +157,16 @@
           integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
           crossorigin="anonymous"></script> -->
   <script>
+    // location.reload = function() {
+    //   if ( window.history.replaceState ) {
+    //   window.history.replaceState( null, null, window.location.href );
+    //   }
+    // }
     document.getElementById("searchBody").addEventListener("submit",function(){
               sessionStorage.setItem('scrollToSearch',true);
               document.getElementById("searchBody").action="/recommendations";
     });
     let checkIfLogin;
-
     // window on load function
     window.onload = function () {
     checkscroll();
