@@ -195,6 +195,16 @@
         document.getElementById("logout").style.display = "none";
     }
     sessionStorage.setItem('scrollToSearch','flase');
+    // put height of card 1 and 2 same
+    let card1 = document.getElementById("card1");
+    let card2 = document.getElementById("card2");
+    let card1Height = card1.offsetHeight;
+    let card2Height = card2.offsetHeight;
+    if (card1Height > card2Height) {
+      card2.style.height = card1Height + "px";
+    } else {
+      card1.style.height = card2Height + "px";
+    }
 };
   </script>
   <!-- end of scripts -->

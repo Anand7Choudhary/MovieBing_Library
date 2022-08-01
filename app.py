@@ -22,7 +22,7 @@ app=Flask(
 )
 
 # variables
-loginStatus = "flase"
+loginStatus = "false"
 adminLoggedIn = "false"
 error = ""
 adminEmail=""
@@ -83,7 +83,7 @@ def addElements():
     # check if anything is empty
     if username == '' or fullname == '' or password == '':
         error = "Please fill all the fields"
-        return render_template('addUser.html',error=error)
+        return render_template('signup.html',error=error)
     if not re.search("^[a-z,A-Z,\s]+$", fullname):
         return render_template('signup.html',error="Invalid Full Name")
     if (bool(re.search(r"\s", username))):
@@ -339,6 +339,8 @@ def updateUserAccount(email):
             global userDetails
             if(len(request.form['password'])<8):
                 return render_template('index.html',userDetails=userDetails,loginStatus=loginStatus,movies=movies,apikey="1cdc3975",showLoading="true",updateError="Password must be atleast 8 characters long")
+            elif not re.search("^[a-z,A-Z,\s]+$", request.form['fullName']):
+                return render_template('index.html',userDetails=userDetails,loginStatus=loginStatus,movies=movies,apikey="1cdc3975",showLoading="true",updateError="Invalid full name provided")
             else:
                 print("hello"+email)
                 user = MovieLib.query.filter_by(email=email).first()
