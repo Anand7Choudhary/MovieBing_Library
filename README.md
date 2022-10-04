@@ -16,3 +16,5 @@ latest movies launched.
 ```
 The Application is still in the development phase, target date for Beta version is 25th July.
 ```
+Link to the website : [Movieium.com][1]
+[1]:https://movieium.herokuapp.com
