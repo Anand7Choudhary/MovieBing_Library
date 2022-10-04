@@ -3,17 +3,18 @@
 This application helps in building an personal movies library, where they can wishlist movies, watch treanding movies and
 latest movies launched.
 
-# **Tech Stack Used**
-- ## Python
-- ## Flask Framework
+# **Tech Stack**
+- ## Front-End
   - HTML5
   - CSS3
   - Javascript
+  - JQuery
   - Bootstrap
+- ## Flask Framework
+  - Python
   - Jinja2
 - ## SQLite
+- ## API
+  - OMDB API
 
-```
-The Application is still in the development phase, target date for Beta version is 25th July.
-```
 Link to the website : [Movieium.com](https://movieium.herokuapp.com)
